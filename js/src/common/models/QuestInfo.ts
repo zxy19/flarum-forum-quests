@@ -25,4 +25,5 @@ export default class QuestInfo extends Model {
   done = Model.attribute<boolean>('done');
   icon = Model.attribute<string>('icon');
   hidden = Model.attribute<boolean>('hidden');
+  manual = Model.attribute<boolean>('manual');
 }

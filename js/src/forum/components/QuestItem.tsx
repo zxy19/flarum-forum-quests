@@ -9,12 +9,14 @@ import Component from 'flarum/common/Component';
 import { showIf } from '../../common/utils/NodeUtil';
 import QuestCondition from '../../common/models/QuestCondition';
 import { ConditionData, OPERATOR } from '../../common/types/data';
+import Button from 'flarum/common/components/Button';
 export default class QuestItem extends Component<{
     item: QuestInfo,
     conditionMap?: Record<string, QuestCondition>
 } & IPageAttrs, null> {
     loading: boolean = false;
     currentFilter: string = "all";
+    updatingCondition: boolean = false;
     oninit(vnode: any): void {
         super.oninit(vnode);
     }
@@ -32,6 +34,12 @@ export default class QuestItem extends Component<{
                             {app.translator.trans("xypp-forum-quests.forum.quest.done") + " "}
                             <i class="fas fa-check"></i>
                         </span>
+                        ,
+                        showIf(this.attrs.item.manual(),
+                            <Button className='Button Button--secondary Button--small' loading={this.updatingCondition} disabled={this.updatingCondition} onclick={this.updateCondition.bind(this)}>
+                                {showIf(!this.updatingCondition, <i class="fas fa-sync"></i>)}
+                            </Button>
+                        )
                     )}
                 </div>
                 <div className='quest-item-description'>
@@ -97,6 +105,19 @@ export default class QuestItem extends Component<{
                 return value1 <= value2;
             case OPERATOR.NOT_EQUAL:
                 return value1 != value2;
+        }
+    }
+    async updateCondition() {
+        this.updatingCondition = true;
+        m.redraw();
+        try {
+            await app.request({
+                method: "GET",
+                url: app.forum.attribute("apiUrl") + "/quest-infos/" + this.attrs.item.id() + "/update",
+            });
+        } finally {
+            this.updatingCondition = false;
+            m.redraw();
         }
     }
 }

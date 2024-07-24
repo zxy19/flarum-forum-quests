@@ -12,7 +12,7 @@ use Xypp\ForumQuests\Enum\ConditionOperator;
 class QuestInfo extends AbstractModel
 {
     protected $table = 'quest_info';
-    protected $dates = ['updated_at', 'created_at','refresh_at'];
+    protected $dates = ['updated_at', 'created_at', 'refresh_at'];
     public ?array $parsed_conditions = null;
     public ?array $parsed_rewards = null;
     public bool $done = false;
@@ -34,12 +34,13 @@ class QuestInfo extends AbstractModel
             $callback($reward->name, $reward->value);
         }
     }
-    public function addReward(string $name, string $value)
+    public function addReward(string $name, string $value,string $alterName = null)
     {
         $this->loadObjs();
         $this->parsed_rewards[] = (object) [
             'name' => $name,
             'value' => $value,
+            'alter_name' => $alterName,
         ];
     }
     public function setRewards(array $rewards)
@@ -65,13 +66,15 @@ class QuestInfo extends AbstractModel
             );
         }
     }
-    public function addCondition(string $name, $operator, string $value)
+    public function addCondition(string $name, $operator, string $value, int $span = null, string $alterName = null)
     {
         $this->loadObjs();
         $this->parsed_conditions[] = (object) [
             'name' => $name,
             'operator' => $operator,
             'value' => $value,
+            'span' => $span,
+            'alter_name' => $alterName,
         ];
     }
     public function setConditions(array $conditions)

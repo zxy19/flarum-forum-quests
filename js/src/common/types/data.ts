@@ -15,10 +15,12 @@ export type ConditionData = {
     operator: OPERATOR;
     value: number;
     span?: number;
+    alter_name?: string;
 }
 export type RewardData = {
     name: string;
     value: string;
+    alter_name?: string;
 }
 export type ConditionAccumulation = {
     all: number,

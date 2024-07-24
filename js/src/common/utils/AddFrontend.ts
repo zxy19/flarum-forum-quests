@@ -21,3 +21,13 @@ export function rewardValueConvert(key: string, callback: (value: string) => str
         }
     })
 }
+
+export function addRewardSelection(key: string, callback: () => Promise<string>) {
+    override(HumanizeUtils.prototype, "rewardSelection", async (ofunction: (key: string) => Promise<string>, _key: string) => {
+        if (key === _key) {
+            return callback();
+        } else {
+            return ofunction(_key);
+        }
+    });
+}

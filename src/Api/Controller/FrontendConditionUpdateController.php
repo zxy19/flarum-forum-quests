@@ -27,7 +27,7 @@ class FrontendConditionUpdateController implements RequestHandlerInterface
         foreach ($data as $d) {
             $wp[] = new ConditionData(Arr::get($d, "name"), Arr::get($d, "value"));
         }
-        $this->helper->updateConditions($actor, $wp);
+        $this->helper->updateConditions($actor, $wp, true);
         return new JsonResponse([
             "message" => "success"
         ]);

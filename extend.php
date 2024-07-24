@@ -41,6 +41,7 @@ return array_merge(
             ->get('/quest-infos', 'quest-infos.index', Api\Controller\ListQuestInfosController::class)
             ->get('/quest-infos-admin', 'quest-infos.admin', Api\Controller\ListAdminQuestInfosController::class)
             ->get('/quest-infos/{id}', 'quest-infos.show', Api\Controller\ShowQuestInfoController::class)
+            ->get('/quest-infos/{id}/update', 'quest-infos.manual-update', Api\Controller\ManualUpdateCondition::class)
             ->post('/quest-infos', 'quest-infos.create', Api\Controller\EditQuestInfoController::class)
             ->patch('/quest-infos/{id}', 'quest-infos.edit', Api\Controller\EditQuestInfoController::class)
             ->delete('/quest-infos/{id}', 'quest-infos.delete', Api\Controller\RemoveQuestInfoController::class)

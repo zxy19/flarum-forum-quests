@@ -13,10 +13,12 @@ class ConditionAccumulation
 
     public bool $dirty = false;
     protected bool $sorted = false;
-    public function __construct(?string $data = "[]")
+    public string $updateFlag = "";
+    public function __construct(?string $data = "{}")
     {
         if (!$data) {
-            $data = "[]";
+            $data = "{}";
+            $this->dirty = true;
         }
         $datas = json_decode($data, true);
         if (!is_array($datas))
@@ -26,6 +28,8 @@ class ConditionAccumulation
                 $this->total = $value;
             } else if ($key == "rest") {
                 $this->rest = $value;
+            } else if ($key == "flg") {
+                $this->updateFlag = $value;
             } else {
                 $date = Carbon::createFromDate(substr($key, 0, 4), substr($key, 4, 2), substr($key, 6, 2));
                 $this->data[] = [
@@ -71,6 +75,7 @@ class ConditionAccumulation
 
         $data["all"] = $this->total;
         $data["rest"] = $this->rest;
+        $data["flg"] = $this->updateFlag;
         return json_encode($data);
     }
     protected function sort()
@@ -129,5 +134,10 @@ class ConditionAccumulation
             ]);
             $this->sorted = false;
         }
+    }
+    public function updateFlag(string $flag)
+    {
+        $this->dirty = true;
+        $this->updateFlag = $flag;
     }
 }

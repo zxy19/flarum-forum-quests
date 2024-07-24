@@ -3,6 +3,7 @@
 namespace Xypp\ForumQuests\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
+use Xypp\ForumQuests\Helper\ConditionHelper;
 use Xypp\ForumQuests\QuestInfo;
 use InvalidArgumentException;
 
@@ -12,7 +13,11 @@ class QuestInfoSerializer extends AbstractSerializer
      * {@inheritdoc}
      */
     protected $type = 'quest-infos';
-
+    protected ConditionHelper $conditionHelper;
+    public function __construct(ConditionHelper $conditionHelper)
+    {
+        $this->conditionHelper = $conditionHelper;
+    }
     /**
      * {@inheritdoc}
      *
@@ -26,6 +31,12 @@ class QuestInfoSerializer extends AbstractSerializer
                 get_class($this) . ' can only serialize instances of ' . QuestInfo::class
             );
         }
+        $updateManual = false;
+        $model->eachConditions(function ($name, $operator, $value, $span) use (&$updateManual) {
+            if ($this->conditionHelper->getConditionDefinition($name)->needManualUpdate) {
+                $updateManual = true;
+            }
+        });
 
         return [
             "id" => $model->id,
@@ -33,12 +44,11 @@ class QuestInfoSerializer extends AbstractSerializer
             "description" => $model->description,
             "conditions" => $model->conditions ?? "{}",
             "rewards" => $model->rewards ?? "{}",
-            "created_at" => $model->created_at,
-            "updated_at" => $model->updated_at,
             "done" => $model->done,
             "re_available" => $model->re_available,
             "icon" => $model->icon,
-            "hidden" => $model->hidden
+            "hidden" => $model->hidden,
+            "manual" => $updateManual
         ];
     }
 }

@@ -58,8 +58,11 @@ xypp-forum-quests:
       condition-operator: "Operator"
       condition-value: "Value"
       condition-span: "Time Span"
+      condition-alter_name: "Display Name"
       reward-name: "Reward Name"
       reward-value: "Value"
+      reward-get_value: "Get Value"
+      reward-alter_name: "Display Name"
       button: "Create"
       button-edit: "Edit"
       new_item: "New Item"
@@ -70,3 +73,4 @@ xypp-forum-quests:
       hour: "After X hours"
   api:
     condition_not_allow_frontend: "Condition cannot be trigger in frontend"
+    no_manual_update: "No manual update needed"

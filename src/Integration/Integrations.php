@@ -11,6 +11,7 @@ use Flarum\Post\Event\Saving;
 use Michaelbelgium\Discussionviews\Events\DiscussionWasViewed;
 use Xypp\ForumQuests\Extend\ConditionDefinitionProvider;
 use Xypp\ForumQuests\Extend\QuestRewardProvider;
+use Xypp\ForumQuests\Integration\Conditions\BadgeReceived;
 use Xypp\ForumQuests\Integration\Conditions\DiscussionCount;
 use Xypp\ForumQuests\Integration\Conditions\DiscussionReplied;
 use Xypp\ForumQuests\Integration\Conditions\DiscussionViews;
@@ -24,6 +25,7 @@ use Xypp\ForumQuests\Integration\Listener\LikeEventsListener;
 use Xypp\ForumQuests\Integration\Listener\PostPostedListener;
 use Xypp\ForumQuests\Integration\Listener\StoreEventListener;
 use Xypp\ForumQuests\Integration\Middleware\ApiVisitCheck;
+use Xypp\ForumQuests\Integration\Rewards\BadgeReward;
 use Xypp\ForumQuests\Integration\Rewards\MoneyReward;
 use Xypp\ForumQuests\Integration\Rewards\StoreItemReward;
 use Xypp\ForumQuests\RewardDefinition;
@@ -70,6 +72,13 @@ class Integrations
                 ->provide(DiscussionViews::class);
             $ret[] = (new Extend\Event())
                 ->listen(DiscussionWasViewed::class, DiscussionViewed::class);
+        }
+
+        if (class_exists(\V17Development\FlarumUserBadges\Badge\Badge::class)) {
+            $ret[] = (new ConditionDefinitionProvider())
+                ->provide(BadgeReceived::class);
+            $ret[] = (new QuestRewardProvider())
+                ->provide(BadgeReward::class);
         }
         return $ret;
     }

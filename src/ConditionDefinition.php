@@ -26,10 +26,10 @@ class ConditionDefinition
     public bool $accumulateAbsolute = true;
 
     /**
-     * Can accumulate value
+     * No auto update support. Will display a check button on frontend
      * @var bool
      */
-    public bool $accumulate = true;
+    public bool $needManualUpdate = false;
 
     public function __construct(?string $name = null)
     {
@@ -57,6 +57,10 @@ class ConditionDefinition
         }
     }
     public function getAbsoluteValue(User $user, ConditionAccumulation $accumulation): bool
+    {
+        return false;
+    }
+    public function updateValue(User $user, ConditionAccumulation $accumulation): bool
     {
         return false;
     }

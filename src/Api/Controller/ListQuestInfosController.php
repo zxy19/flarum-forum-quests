@@ -79,7 +79,7 @@ class ListQuestInfosController extends AbstractListController
                 ->orWhere("hidden", "!=", 1);
         });
         $query = $query->offset($offset)->limit($limit + 1);
-        $sql = $query->toSql();
+        $query = $query->select(["quest_info.*", "user_quest.refresh_at", "user_quest.user_id"]);
         $results = $query->get();
         $results->each(function (QuestInfo $questInfo) use ($now) {
             $questInfo->done = $questInfo->user_id && ($questInfo->refresh_at === null || $now->lte($questInfo->refresh_at));
@@ -97,7 +97,6 @@ class ListQuestInfosController extends AbstractListController
             $limit,
             $more ? null : 0
         );
-        $document->addMeta("sql", $sql);
         return $results;
     }
 }

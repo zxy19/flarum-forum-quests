@@ -7,7 +7,7 @@ xypp-forum-quests:
       quest_done_label: 任务完成
     condition:
       condition: "条件"
-      format: "{span}<b>{name}</b> {operator}{value} "
+      format: "{span} <b>{name}</b>{operator}{value} "
       and: " 并且 "
       span: "在{span}天内"
     reward:
@@ -58,6 +58,7 @@ xypp-forum-quests:
       condition-operator: "操作符"
       condition-value: "条件值"
       condition-span: "时间区间"
+      condition-alter_name: "显示名"
       reward-name: "奖励名"
       reward-value: "奖励值"
       button: "创建"
@@ -70,3 +71,4 @@ xypp-forum-quests:
       hour: "X小时后"
   api:
     condition_not_allow_frontend: "该条件不能由前端修改"
+    no_manual_update: "无需手动更新"

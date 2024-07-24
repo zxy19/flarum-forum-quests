@@ -55,6 +55,7 @@
     "require-dev": {
         "xypp/store": "*",
         "flarum/likes": "*",
-        "michaelbelgium/flarum-discussion-views": "^7.3"
+        "michaelbelgium/flarum-discussion-views": "^7.3",
+        "v17development/flarum-user-badges": "^1.1"
     }
 }

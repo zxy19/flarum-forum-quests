@@ -11,9 +11,11 @@ class ConditionData
 {
     public string $name;
     public int $value;
-    public function __construct(string $name, int $value)
+    public string $flag = "";
+    public function __construct(string $name, int $value, string $flag = "")
     {
         $this->name = $name;
         $this->value = $value;
+        $this->flag = $flag;
     }
 }

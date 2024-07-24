@@ -11,10 +11,18 @@ xypp-forum-quests:
         store_purchased: => xypp-forum-quests.ref.integration.condition.store_purchased
         discussion_replied: => xypp-forum-quests.ref.integration.condition.discussion_replied
         discussion_views: => xypp-forum-quests.ref.integration.condition.discussion_views
+        badge_received: => xypp-forum-quests.ref.integration.condition.badge_received
       reward:
         money: => xypp-forum-quests.ref.integration.reward.money
         store_item: => xypp-forum-quests.ref.integration.reward.store_item
         store_item_loading: => xypp-forum-quests.ref.integration.reward.store_item_loading
+        store_item_select: => xypp-forum-quests.ref.integration.reward.store_item_select
+        store_item_select_button: => xypp-forum-quests.ref.integration.reward.store_item_select_button
+        badge: => xypp-forum-quests.ref.integration.reward.badge
+        badge_loading: => xypp-forum-quests.ref.integration.reward.badge_loading
+        badge_error: => xypp-forum-quests.ref.integration.reward.badge_error
+        badge_select: => xypp-forum-quests.ref.integration.reward.badge_select
+        badge_select_button: => xypp-forum-quests.ref.integration.reward.badge_select_button
   admin:
     integration:
       condition:
@@ -27,10 +35,18 @@ xypp-forum-quests:
         store_purchased: => xypp-forum-quests.ref.integration.condition.store_purchased
         discussion_replied: => xypp-forum-quests.ref.integration.condition.discussion_replied
         discussion_views: => xypp-forum-quests.ref.integration.condition.discussion_views
+        badge_received: => xypp-forum-quests.ref.integration.condition.badge_received
       reward:
         money: => xypp-forum-quests.ref.integration.reward.money
         store_item: => xypp-forum-quests.ref.integration.reward.store_item
         store_item_loading: => xypp-forum-quests.ref.integration.reward.store_item_loading
+        store_item_select: => xypp-forum-quests.ref.integration.reward.store_item_select
+        store_item_select_button: => xypp-forum-quests.ref.integration.reward.store_item_select_button
+        badge: => xypp-forum-quests.ref.integration.reward.badge
+        badge_loading: => xypp-forum-quests.ref.integration.reward.badge_loading
+        badge_error: => xypp-forum-quests.ref.integration.reward.badge_error
+        badge_select: => xypp-forum-quests.ref.integration.reward.badge_select
+        badge_select_button: => xypp-forum-quests.ref.integration.reward.badge_select_button
   ref:
     integration:
       condition:
@@ -43,8 +59,16 @@ xypp-forum-quests:
         store_purchased: "Store Purchased"
         discussion_replied: "Discussion Replied"
         discussion_views: "Discussion Views"
+        badge_received: "Badge Received"
       reward:
         money: "Money"
         store_item: "Store Item"
         store_item_loading: "..."
         store_item_error: "Not Found"
+        store_item_select: "Select Store Item"
+        store_item_select_button: "Select"
+        badge: "Badge"
+        badge_loading: "..."
+        badge_error: "Not Found"
+        badge_select: "Select Badge"
+        badge_select_button: "Select"

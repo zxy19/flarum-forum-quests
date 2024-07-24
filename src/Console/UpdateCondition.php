@@ -76,7 +76,7 @@ class UpdateCondition extends Command
             $this->withProgressBar(
                 $users,
                 function (User $user) use ($conditionDefinitionName, $conditionDefinition, &$updated) {
-                    $accumulation = new ConditionAccumulation("[]");
+                    $accumulation = new ConditionAccumulation("{}");
                     $result = $conditionDefinition->getAbsoluteValue($user, $accumulation);
                     if (!$result)
                         return;

@@ -33,14 +33,22 @@ export default class HumanizeUtils {
     public getRewardValue(key: string, value: string): string {
         return value;
     }
+    public async rewardSelection(type: string) {
+        return "";
+    }
     public humanizeCondition(conditionData: ConditionData[] | ConditionData): any {
         if (Array.isArray(conditionData)) {
             return conditionData.map(condition => {
                 return this.humanizeCondition(condition);
             });
         } else {
-            const span = conditionData.span ? app.translator.trans("xypp-forum-quests.forum.condition.span", { span: conditionData.span }) : '';
-
+            if (conditionData.alter_name) {
+                return conditionData.alter_name;
+            }
+            let span = conditionData.span ? app.translator.trans("xypp-forum-quests.forum.condition.span", { span: conditionData.span }) : '';
+            if (Array.isArray(span)) {
+                span = span.join("");
+            }
             return app.translator.trans("xypp-forum-quests.forum.condition.format", {
                 b: <b />,
                 name: this.getConditionName(conditionData.name),
@@ -57,6 +65,9 @@ export default class HumanizeUtils {
                 return this.humanizeReward(condition);
             });
         } else {
+            if (rewardData.alter_name) {
+                return rewardData.alter_name;
+            }
             return app.translator.trans("xypp-forum-quests.forum.reward.format", {
                 b: <b />,
                 name: this.getRewardName(rewardData.name),

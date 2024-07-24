@@ -35,6 +35,7 @@ export default class editModal extends Modal<{
     hidden: boolean = false;
     re_available_type: string = "none";
     re_available_value: string = "";
+    rewardGettingValue: Record<number, boolean> = {};
     oninit(vnode: any): void {
         super.oninit(vnode);
         const humanize = HumanizeUtils.getInstance();
@@ -76,7 +77,7 @@ export default class editModal extends Modal<{
         });
     }
     className() {
-        return 'Modal';
+        return 'Modal Modal--large';
     }
     title() {
         if (this.attrs.item) {
@@ -126,6 +127,7 @@ export default class editModal extends Modal<{
                                     <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-operator')}</th>
                                     <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-value')}</th>
                                     <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-span')}</th>
+                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-alter_name')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -162,6 +164,11 @@ export default class editModal extends Modal<{
                                                 }).bind(this)} />
                                             </td>
                                             <td>
+                                                <input className="FormControl" type="text" value={item.alter_name || ""} onchange={((e: InputEvent) => {
+                                                    this.conditions[index].alter_name = (e.target as HTMLInputElement).value || undefined;
+                                                }).bind(this)} />
+                                            </td>
+                                            <td>
                                                 {showIf(item.name != '*',
                                                     <Button className="Button Button--danger" onclick={((e: any) => {
                                                         this.conditions.splice(index, 1);
@@ -184,6 +191,8 @@ export default class editModal extends Modal<{
                                 <tr>
                                     <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-name')}</th>
                                     <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-value')}</th>
+                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-get_value')}</th>
+                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-alter_name')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -205,6 +214,17 @@ export default class editModal extends Modal<{
                                             <td>
                                                 <input className="FormControl" type="text" value={item.value} onchange={((e: InputEvent) => {
                                                     this.rewards[index].value = (e.target as HTMLInputElement).value;
+                                                }).bind(this)} />
+                                            </td>
+                                            <td>
+                                                <Button className="Button Button--primary" onclick={this.getValue.bind(this)} data-id={index}
+                                                    disabled={this.rewardGettingValue[index]} loading={this.rewardGettingValue[index]}>
+                                                    <i class="fas fa-eye"></i>
+                                                </Button>
+                                            </td>
+                                            <td>
+                                                <input className="FormControl" type="text" value={item.alter_name || ""} onchange={((e: InputEvent) => {
+                                                    this.rewards[index].alter_name = (e.target as HTMLInputElement).value || undefined;
                                                 }).bind(this)} />
                                             </td>
                                             <td>
@@ -269,6 +289,14 @@ export default class editModal extends Modal<{
             this.loading = false;
             m.redraw();
         }
-
+    }
+    async getValue(e: MouseEvent) {
+        const id = parseInt((e.currentTarget as HTMLInputElement).getAttribute('data-id') as string);
+        this.rewardGettingValue[id] = true;
+        m.redraw();
+        const result = await HumanizeUtils.getInstance().rewardSelection(this.rewards[id].name);
+        this.rewards[id].value = result;
+        this.rewardGettingValue[id] = false;
+        m.redraw();
     }
 }
