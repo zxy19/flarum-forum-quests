@@ -37,7 +37,7 @@ class ConditionDefinition
             $this->name = $name;
     }
 
-    public function compare(int $value, ConditionOperator $operator, int $compareValue): bool
+    public function compare(int $value, string $operator, int $compareValue): bool
     {
         switch ($operator) {
             case ConditionOperator::EQUAL:

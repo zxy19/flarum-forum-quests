@@ -59,18 +59,18 @@ class QuestInfo extends AbstractModel
             }
             $callback(
                 $condition->name,
-                ConditionOperator::tryFrom($condition->operator),
+                $condition->operator,
                 $condition->value,
                 $span
             );
         }
     }
-    public function addCondition(string $name, ConditionOperator $operator, string $value)
+    public function addCondition(string $name, $operator, string $value)
     {
         $this->loadObjs();
         $this->parsed_conditions[] = (object) [
             'name' => $name,
-            'operator' => $operator->value,
+            'operator' => $operator,
             'value' => $value,
         ];
     }
