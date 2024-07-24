@@ -50,6 +50,8 @@ xypp-forum-quests:
       edit: "Edit Quest"
       name: "Name"
       description: "Description"
+      icon: "Icon"
+      hidden: "Hidden"
       condition: "Condition"
       reward: "Reward"
       condition-name: "Condition Name"

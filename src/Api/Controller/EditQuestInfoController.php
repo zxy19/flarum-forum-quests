@@ -44,6 +44,8 @@ class EditQuestInfoController extends AbstractCreateController
         if ($model->re_available === "") {
             $model->re_available = null;
         }
+        $model->icon = Arr::get($attributes, 'icon');
+        $model->hidden = Arr::get($attributes, 'hidden');
         $model->save();
         return $model;
     }

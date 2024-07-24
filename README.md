@@ -23,5 +23,5 @@ php flarum cache:clear
 ## Links
 
 - [Packagist](https://packagist.org/packages/xypp/forum-quests)
-- [GitHub](https://github.com/xypp/forum-quests)
+- [GitHub](https://github.com/zxy19/flarum-forum-quests)
 - [Discuss](https://discuss.flarum.org/d/PUT_DISCUSS_SLUG_HERE)

@@ -37,7 +37,8 @@ class QuestInfoSerializer extends AbstractSerializer
             "updated_at" => $model->updated_at,
             "done" => $model->done,
             "re_available" => $model->re_available,
-            "icon" => $model->icon
+            "icon" => $model->icon,
+            "hidden" => $model->hidden
         ];
     }
 }

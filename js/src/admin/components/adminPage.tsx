@@ -85,7 +85,7 @@ export default class adminPage extends ExtensionPage {
     async loadMore() {
         this.item_loading = true;
         m.redraw();
-        const newItems = await app.store.find<QuestInfo[]>('quest-infos', { page: { offset: this.offset, limit: 30 }, filter: this.currentFilter } as any);
+        const newItems = await app.store.find<QuestInfo[]>('quest-infos-admin', { page: { offset: this.offset, limit: 30 }, filter: this.currentFilter } as any);
         this.items.push(...newItems);
         this.item_loading = false;
         if (newItems.length < 30) {

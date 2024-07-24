@@ -10,6 +10,7 @@ export function init(app: ForumApplication | AdminApplication, fe: string) {
     addCondition("like_send", app.translator.trans(`${base}.condition.like_send`) + "");
     addCondition("discussion_count", app.translator.trans(`${base}.condition.discussion_count`) + "")
     addCondition("discussion_replied", app.translator.trans(`${base}.condition.discussion_replied`) + "");
+    addCondition("discussion_views", app.translator.trans(`${base}.condition.discussion_views`) + "");
     addCondition("store_purchased", app.translator.trans(`${base}.condition.store_purchased`) + "");
     addCondition("reloads", app.translator.trans(`${base}.condition.reloads`) + "");
     addReward("money", app.translator.trans(`${base}.reward.money`) + "");

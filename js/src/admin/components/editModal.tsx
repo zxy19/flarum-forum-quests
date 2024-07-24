@@ -31,6 +31,8 @@ export default class editModal extends Modal<{
     rewards: RewardData[] = [];
     name: string = "";
     desc: string = "";
+    icon: string = "";
+    hidden: boolean = false;
     re_available_type: string = "none";
     re_available_value: string = "";
     oninit(vnode: any): void {
@@ -60,6 +62,8 @@ export default class editModal extends Modal<{
             this.rewards = this.attrs.item.reward();
             this.name = this.attrs.item.name();
             this.desc = this.attrs.item.description();
+            this.hidden = this.attrs.item.hidden();
+            this.icon = this.attrs.item.icon();
         }
         this.conditions.push({
             name: '*',
@@ -92,13 +96,26 @@ export default class editModal extends Modal<{
                         <label for="xypp-quests-create-ipt-name">{app.translator.trans('xypp-forum-quests.admin.create-modal.name')}</label>
                         <input id="xypp-quests-create-ipt-name" required className="FormControl" type="text" step="any" value={this.name} onchange={((e: InputEvent) => {
                             this.name = (e.target as HTMLInputElement).value;
-                        })} />
+                        }).bind(this)} />
                     </div>
                     <div className="Form-group">
                         <label for="xypp-quests-create-ipt-desc">{app.translator.trans('xypp-forum-quests.admin.create-modal.description')}</label>
                         <textarea id="xypp-quests-create-ipt-desc" required className="FormControl" step="any" value={this.desc} onchange={((e: InputEvent) => {
                             this.desc = (e.target as HTMLTextAreaElement).value;
-                        })}>{this.desc}</textarea>
+                        }).bind(this)}>{this.desc}</textarea>
+                    </div>
+                    <div className="Form-group">
+                        <label for="xypp-quests-create-ipt-icon">{app.translator.trans('xypp-forum-quests.admin.create-modal.icon')}</label>
+                        <input id="xypp-quests-create-ipt-icon" className="FormControl" type="text" step="any" value={this.icon} onchange={((e: InputEvent) => {
+                            this.icon = (e.target as HTMLInputElement).value;
+                        }).bind(this)} />
+                    </div>
+                    <div className="Form-group">
+                        <Switch state={this.hidden} onchange={((e: boolean) => {
+                            this.hidden = e;
+                        }).bind(this)} >
+                            <label>{app.translator.trans('xypp-forum-quests.admin.create-modal.hidden')}</label>
+                        </Switch>
                     </div>
                     <div className="Form-group">
                         <label>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition')}</label>
@@ -243,7 +260,9 @@ export default class editModal extends Modal<{
                 rewards: JSON.stringify(this.rewards.filter(item => item.name != '*')),
                 name: this.name,
                 description: this.desc,
-                re_available
+                re_available,
+                icon: this.icon,
+                hidden: this.hidden
             });
             app.modal.close();
         } finally {

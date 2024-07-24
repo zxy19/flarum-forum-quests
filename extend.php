@@ -39,6 +39,7 @@ return array_merge(
             ->listen(QuestConditionData::class, QuestConditionModifierListener::class),
         (new Extend\Routes('api'))
             ->get('/quest-infos', 'quest-infos.index', Api\Controller\ListQuestInfosController::class)
+            ->get('/quest-infos-admin', 'quest-infos.admin', Api\Controller\ListAdminQuestInfosController::class)
             ->get('/quest-infos/{id}', 'quest-infos.show', Api\Controller\ShowQuestInfoController::class)
             ->post('/quest-infos', 'quest-infos.create', Api\Controller\EditQuestInfoController::class)
             ->patch('/quest-infos/{id}', 'quest-infos.edit', Api\Controller\EditQuestInfoController::class)

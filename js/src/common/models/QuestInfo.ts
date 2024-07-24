@@ -24,4 +24,5 @@ export default class QuestInfo extends Model {
   re_available = Model.attribute<string>('re_available');
   done = Model.attribute<boolean>('done');
   icon = Model.attribute<string>('icon');
+  hidden = Model.attribute<boolean>('hidden');
 }

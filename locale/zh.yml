@@ -1,0 +1,72 @@
+xypp-forum-quests:
+  forum:
+    reward_not_found: 未找到奖励{reward}
+    condition_not_found: 未找到条件{condition}
+    notification:
+      quest_done: "你刚刚完成了任务 {name}!"
+      quest_done_label: 任务完成
+    condition:
+      condition: "条件"
+      format: "{span}<b>{name}</b> {operator}{value} "
+      and: " 并且 "
+      span: "在{span}天内"
+    reward:
+      reward: "奖励"
+      format: "<b>{name}</b>:{value}"
+      and: " 和 "
+    quest:
+      quest: "任务"
+      load_more: "加载更多"
+      done: "[已完成]"
+    re_available:
+      none: "一次性"
+      day: "每 {value} 天重置"
+      hour: "在完成后 {value} 小时后重置"
+    condition_view:
+      button: "查看条件值"
+      title: "条件查看"
+      name: "名称"
+      value: "值"
+      span: "区间值"
+      set_span: "设置区间"
+    quest_done:
+      all: "全部"
+      "true": "已完成"
+      "false": "未完成"
+  admin:
+    settings: "设置"
+    timezone: "时区"
+    data: "数据"
+    table:
+      id: "#"
+      name: "名字"
+      description: "描述"
+      operation: "操作"
+      load_more: "加载更多"
+      remove_confirm: "你确定要删除这个任务吗？"
+      create: "创建"
+    create-modal:
+      title: "创建任务"
+      edit: "编辑任务"
+      name: "名字"
+      description: "描述"
+      icon: "图标"
+      hidden: "隐藏"
+      condition: "条件"
+      reward: "奖励"
+      condition-name: "条件名"
+      condition-operator: "操作符"
+      condition-value: "条件值"
+      condition-span: "时间区间"
+      reward-name: "奖励名"
+      reward-value: "奖励值"
+      button: "创建"
+      button-edit: "编辑"
+      new_item: "新项"
+      re_available: "重置"
+    re_available:
+      none: "一次性"
+      day: "X天"
+      hour: "X小时后"
+  api:
+    condition_not_allow_frontend: "该条件不能由前端修改"
