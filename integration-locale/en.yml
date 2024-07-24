@@ -1,0 +1,47 @@
+xypp-forum-quests:
+  forum:
+    integration:
+      condition:
+        post_count: => xypp-forum-quests.ref.integration.condition.post_count
+        discussion_count: => xypp-forum-quests.ref.integration.condition.discussion_count
+        like_recv: => xypp-forum-quests.ref.integration.condition.like_recv
+        like_send: => xypp-forum-quests.ref.integration.condition.like_send
+        user_page_view: => xypp-forum-quests.ref.integration.condition.user_page_view
+        reloads: => xypp-forum-quests.ref.integration.condition.reloads
+        store_purchased: => xypp-forum-quests.ref.integration.condition.store_purchased
+        discussion_replied: => xypp-forum-quests.ref.integration.condition.discussion_replied
+      reward:
+        money: => xypp-forum-quests.ref.integration.reward.money
+        store_item: => xypp-forum-quests.ref.integration.reward.store_item
+        store_item_loading: => xypp-forum-quests.ref.integration.reward.store_item_loading
+  admin:
+    integration:
+      condition:
+        post_count: => xypp-forum-quests.ref.integration.condition.post_count
+        discussion_count: => xypp-forum-quests.ref.integration.condition.discussion_count
+        like_recv: => xypp-forum-quests.ref.integration.condition.like_recv
+        like_send: => xypp-forum-quests.ref.integration.condition.like_send
+        user_page_view: => xypp-forum-quests.ref.integration.condition.user_page_view
+        reloads: => xypp-forum-quests.ref.integration.condition.reloads
+        store_purchased: => xypp-forum-quests.ref.integration.condition.store_purchased
+        discussion_replied: => xypp-forum-quests.ref.integration.condition.discussion_replied
+      reward:
+        money: => xypp-forum-quests.ref.integration.reward.money
+        store_item: => xypp-forum-quests.ref.integration.reward.store_item
+        store_item_loading: => xypp-forum-quests.ref.integration.reward.store_item_loading
+  ref:
+    integration:
+      condition:
+        post_count: "Post Count"
+        discussion_count: "Discussion Count"
+        like_recv: "Like Received"
+        like_send: "Like Sent"
+        user_page_view: "User Page Visit"
+        reloads: "Page Reloads"
+        store_purchased: "Store Purchased"
+        discussion_replied: "Discussion Replied"
+      reward:
+        money: "Money"
+        store_item: "Store Item"
+        store_item_loading: "Loading..."
+        store_item_error: "Not Found"

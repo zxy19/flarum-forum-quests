@@ -1,0 +1,82 @@
+.QuestPageContainer{
+    padding-top: 30px;
+    width: 100%;
+}
+.QuestPageOpt {
+    display: flex;
+    justify-content: space-between;
+}
+
+.QuestPageContent {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+
+    .quest-item-container {
+        flex-basis: 400px;
+        width: 400px;
+        min-height: 160px;
+        border-radius: var(--border-radius);
+        box-shadow: 0 0 2px var(--primary-color);
+        margin: 5px;
+        padding: 5px;
+        padding-top: 15px;
+        position: relative;
+
+        .quest-item-name {
+            font-size: x-large;
+
+            .quest-item-done {
+                color: var(--alert-success-color);
+                font-size: small;
+            }
+        }
+
+        .quest-item-description {
+            color: var(--text-color);
+            height: 35px;
+        }
+
+        .quest-item-infos {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .quest-item-condition,
+            .quest-item-reward {
+                flex-basis: 45%;
+                flex-grow: 0;
+            }
+
+            .quest-item-condition-title,
+            .quest-item-reward-title {
+                border-bottom: var(--primary-color) 2px solid;
+            }
+        }
+
+        .quest-item-icon {
+            position: absolute;
+            right: 17px;
+            top: 10px;
+            z-index: 2;
+            font-size: 24px;
+        }
+
+        .quest-item-progress-satisfy{
+            color: var(--alert-success-color);
+        }
+        .quest-item-progress-not-satisfy{
+            color: var(--alert-error-bg);
+        }
+
+
+        .quest-item-condition-line{
+            white-space: nowrap;
+        }
+    }
+}
+
+.ConditionViewTable{
+    text-align: center;
+}
