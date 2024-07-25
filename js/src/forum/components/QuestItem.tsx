@@ -115,6 +115,8 @@ export default class QuestItem extends Component<{
                 method: "GET",
                 url: app.forum.attribute("apiUrl") + "/quest-infos/" + this.attrs.item.id() + "/update",
             });
+            const item = await app.store.find<QuestInfo>('quest-infos', this.attrs.item.id() as string);
+            this.attrs.item.pushAttributes(item.data.attributes as any);
         } finally {
             this.updatingCondition = false;
             m.redraw();

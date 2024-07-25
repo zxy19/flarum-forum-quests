@@ -15,6 +15,7 @@ use Flarum\Extend;
 use Flarum\Frontend\Document;
 use Flarum\User\User;
 use Xypp\ForumQuests\Api\Serializer\QuestInfoSerializer;
+use Xypp\ForumQuests\Console\RecalculateCondition;
 use Xypp\ForumQuests\Event\QuestConditionData;
 use Xypp\ForumQuests\Integration\Integrations;
 use Xypp\ForumQuests\Listener\QuestConditionModifierListener;
@@ -52,6 +53,7 @@ return array_merge(
         (new Extend\Console())
             ->command(UpdateCondition::class)
             ->command(UpdateRefreshCommand::class)
+            ->command(RecalculateCondition::class),
     ]
     ,
     (new Integrations())()

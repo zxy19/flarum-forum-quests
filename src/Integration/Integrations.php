@@ -44,7 +44,7 @@ class Integrations
                 ->provide(PostCount::class)
                 ->provide(DiscussionReplied::class)
                 ->provide(DiscussionCount::class)
-                ->simple("user_page_view")
+                ->simpleFrontend("user_page_view")
                 ->simple("reloads"),
             (new Extend\Middleware("forum"))
                 ->add(ApiVisitCheck::class)

@@ -27,7 +27,12 @@ export default class adminPage extends ExtensionPage {
                     default: 'UTC',
                     label: app.translator.trans('xypp-forum-quests.admin.timezone'),
                 })}
-
+                {this.buildSettingComponent({
+                    type: 'bool',
+                    setting: 'xypp.forum-quests.allow_update',
+                    default: true,
+                    label: app.translator.trans('xypp-forum-quests.admin.allow_update'),
+                })}
                 {this.submitButton()}
             </div>
             <h2>{app.translator.trans('xypp-forum-quests.admin.data')}</h2>

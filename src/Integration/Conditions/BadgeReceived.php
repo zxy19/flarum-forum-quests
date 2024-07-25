@@ -25,10 +25,8 @@ class BadgeReceived extends ConditionDefinition
     }
     public function updateValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool
     {
+        $conditionAccumulation->clear();
         $q = UserBadge::where("user_id", $user->id);
-        if ($conditionAccumulation->updateFlag) {
-            $q = $q->where("id", ">=", $conditionAccumulation->updateFlag);
-        }
         $badges = $q->get();
         foreach ($badges as $badge) {
             $conditionAccumulation->updateValue($badge->assigned_at, 1);

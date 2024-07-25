@@ -10,4 +10,6 @@ export default class QuestInfo extends Model {
     re_available: () => string;
     done: () => boolean;
     icon: () => string;
+    hidden: () => boolean;
+    manual: () => boolean;
 }

@@ -14,12 +14,16 @@ export default class editModal extends Modal<{
     rewards: RewardData[];
     name: string;
     desc: string;
+    icon: string;
+    hidden: boolean;
     re_available_type: string;
     re_available_value: string;
+    rewardGettingValue: Record<number, boolean>;
     oninit(vnode: any): void;
     className(): string;
     title(): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
     oncreate(vnode: any): void;
     content(): JSX.Element;
     onsubmit(e: any): Promise<void>;
+    getValue(e: MouseEvent): Promise<void>;
 }

@@ -9,6 +9,7 @@ export default class HumanizeUtils {
     getConditionName(key: string): string;
     getRewardName(key: string): string;
     getRewardValue(key: string, value: string): string;
+    rewardSelection(type: string): Promise<string>;
     humanizeCondition(conditionData: ConditionData[] | ConditionData): any;
     humanizeReward(rewardData: RewardData[] | RewardData): any;
     humanizeReAvailable(value: string): import("@askvortsov/rich-icu-message-formatter").NestedStringArray;

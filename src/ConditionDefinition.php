@@ -31,10 +31,12 @@ class ConditionDefinition
      */
     public bool $needManualUpdate = false;
 
-    public function __construct(?string $name = null)
+    public function __construct(?string $name = null, ?bool $frontend = false)
     {
         if ($name)
             $this->name = $name;
+        if ($frontend)
+            $this->allowFrontendTrigger = true;
     }
 
     public function compare(int $value, string $operator, int $compareValue): bool

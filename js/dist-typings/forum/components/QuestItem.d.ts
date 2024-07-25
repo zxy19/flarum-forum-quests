@@ -10,9 +10,11 @@ export default class QuestItem extends Component<{
 } & IPageAttrs, null> {
     loading: boolean;
     currentFilter: string;
+    updatingCondition: boolean;
     oninit(vnode: any): void;
     oncreate(vnode: any): void;
     view(): JSX.Element;
     progress(condition: ConditionData): "" | JSX.Element;
     conditionOp(value1: number, op: OPERATOR, value2: number): boolean;
+    updateCondition(): Promise<void>;
 }

@@ -36,6 +36,7 @@ xypp-forum-quests:
   admin:
     settings: "Settings"
     timezone: "Timezone"
+    allow_update: "Allow user update manually"
     data: "Data"
     table:
       id: "#"
@@ -74,3 +75,4 @@ xypp-forum-quests:
   api:
     condition_not_allow_frontend: "Condition cannot be trigger in frontend"
     no_manual_update: "No manual update needed"
+    manual_condition_cannot_hidden: "Manual condition cannot be used in hidden tasks:{condition}"

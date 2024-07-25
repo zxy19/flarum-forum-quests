@@ -140,4 +140,13 @@ class ConditionAccumulation
         $this->dirty = true;
         $this->updateFlag = $flag;
     }
+    public function clear()
+    {
+        $this->data = [];
+        $this->total = 0;
+        $this->dirty = true;
+        $this->updateFlag = "";
+        $this->sorted = true;
+        $this->rest = 0;
+    }
 }

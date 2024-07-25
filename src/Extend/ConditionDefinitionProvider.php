@@ -14,9 +14,16 @@ class ConditionDefinitionProvider implements ExtenderInterface
 
     protected array $simpleConditionsDefinitions = [];
 
+    protected array $simpleFeConditionsDefinitions = [];
+
     public function simple(string $name)
     {
         $this->simpleConditionsDefinitions[] = $name;
+        return $this;
+    }
+    public function simpleFrontend(string $name)
+    {
+        $this->simpleFeConditionsDefinitions[] = $name;
         return $this;
     }
     public function provide($className)
@@ -35,6 +42,9 @@ class ConditionDefinitionProvider implements ExtenderInterface
                 }
                 foreach ($this->simpleConditionsDefinitions as $name) {
                     $collection->addDefinition(new ConditionDefinition($name));
+                }
+                foreach ($this->simpleFeConditionsDefinitions as $name) {
+                    $collection->addDefinition(new ConditionDefinition($name, true));
                 }
             }
         );

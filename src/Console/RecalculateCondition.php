@@ -17,17 +17,17 @@ use Xypp\ForumQuests\Utils\ReAvailableUtils;
 use Xypp\Store\PurchaseHistory;
 use Xypp\Store\Helper\ProviderHelper;
 
-class UpdateCondition extends Command
+class RecalculateCondition extends Command
 {
     /**
      * @var string
      */
-    protected $signature = 'forum-quests:update';
+    protected $signature = 'forum-quests:recalculate';
 
     /**
      * @var string
      */
-    protected $description = 'Update condition from database.';
+    protected $description = 'Recalculate condition from database absolutely.';
 
     protected ConditionHelper $conditionHelper;
     public function __construct(ConditionHelper $conditionHelper)
@@ -35,6 +35,8 @@ class UpdateCondition extends Command
         parent::__construct();
         $this->conditionHelper = $conditionHelper;
         $this->addArgument("names", InputArgument::OPTIONAL | InputArgument::IS_ARRAY, "Condition names to update");
+        $this->addOption("overwrite", "o", InputArgument::OPTIONAL, "Overwrite item that cannot get absolute accumulation data");
+        $this->addOption("skip", "s", InputArgument::OPTIONAL, "Skip item that cannot get absolute accumulation data");
         $this->addOption("no-update-achieve", "a", InputArgument::OPTIONAL, "Not update achievement");
     }
     public function handle()
@@ -44,7 +46,7 @@ class UpdateCondition extends Command
             $names = [$names];
         }
         $users = User::all();
-        $this->info("Updating all conditions for " . $users->count() . " users.");
+        $this->info("Recalculate all conditions for " . $users->count() . " users.");
 
         $questInfoIds = [];
 
@@ -52,21 +54,38 @@ class UpdateCondition extends Command
             if ($names && !in_array($conditionDefinitionName, $names))
                 continue;
             $conditionDefinition = $this->conditionHelper->getConditionDefinition($conditionDefinitionName);
+            if (!$conditionDefinition->accumulateAbsolute) {
+                if (!$this->option("overwrite")) {
+                    if ($this->option("skip")) {
+                        $this->info("Skipped");
+                        continue;
+                    }
+                    $q = "Condition $conditionDefinitionName is not accumulateAbsolute able," .
+                        "continue with losing all accumulate data(which used to calc value in span)." .
+                        " do you want to do it? (y/n)";
+                    $ans = $this->askWithCompletion($q, ["y", "n"], "n");
+                    if ($ans != "y") {
+                        $this->info("Skipped");
+                        continue;
+                    }
+                }
+            }
+
             $updated = false;
-            $this->info("Updating $conditionDefinitionName");
+            $this->info("Calculating $conditionDefinitionName");
             $this->withProgressBar(
                 $users,
                 function (User $user) use ($conditionDefinitionName, $conditionDefinition, &$updated) {
+                    $accumulation = new ConditionAccumulation("{}");
+                    $result = $conditionDefinition->getAbsoluteValue($user, $accumulation);
+                    if (!$result)
+                        return;
                     $condition = QuestCondition::where("name", $conditionDefinitionName)->where("user_id", $user->id)->first();
                     if (!$condition) {
                         $condition = new QuestCondition();
                         $condition->name = $conditionDefinitionName;
                         $condition->user_id = $user->id;
                     }
-                    $accumulation = $condition->getAccumulation();
-                    $result = $conditionDefinition->updateValue($user, $accumulation);
-                    if (!$result)
-                        return;
                     $condition->setAccumulation($accumulation);
                     $condition->value = $accumulation->total;
                     $condition->updateTimestamps();

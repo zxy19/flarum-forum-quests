@@ -36,6 +36,7 @@ xypp-forum-quests:
   admin:
     settings: "设置"
     timezone: "时区"
+    allow_update: "允许用户手动更新"
     data: "数据"
     table:
       id: "#"
@@ -72,3 +73,4 @@ xypp-forum-quests:
   api:
     condition_not_allow_frontend: "该条件不能由前端修改"
     no_manual_update: "无需手动更新"
+    manual_condition_cannot_hidden: "需要手动更新的条件不能用于隐藏任务:{condition}"
