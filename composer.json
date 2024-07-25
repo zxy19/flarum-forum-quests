@@ -1,6 +1,6 @@
 {
     "name": "xypp/forum-quests",
-    "description": "Add quests support for user to pick, and reward with money or other.",
+    "description": "Add quests support for user to pick, and reward with money or other things.",
     "keywords": [
         "flarum"
     ],
@@ -24,11 +24,11 @@
     "extra": {
         "flarum-extension": {
             "title": "Forum Quests",
-            "category": "",
+            "category": "feature",
             "icon": {
-                "name": "",
-                "color": "",
-                "backgroundColor": ""
+                "name": "fas fa-tasks",
+                "color": "#fff",
+                "backgroundColor": "#01579b"
             }
         },
         "flarum-cli": {

@@ -62,6 +62,8 @@ xypp-forum-quests:
       condition-alter_name: "显示名"
       reward-name: "奖励名"
       reward-value: "奖励值"
+      reward-get_value: "获取值"
+      reward-alter_name: "显示名"
       button: "创建"
       button-edit: "编辑"
       new_item: "新项"

@@ -54,6 +54,8 @@ return array_merge(
             ->command(UpdateCondition::class)
             ->command(UpdateRefreshCommand::class)
             ->command(RecalculateCondition::class),
+        (new Extend\Settings())
+            ->default('xypp.forum-quests.allow_update', true)
     ]
     ,
     (new Integrations())()
