@@ -29,7 +29,7 @@ app.initializers.add('xypp/forum-quests', () => {
       LinkButton.component(
         {
           href: app.route('quest_page'),
-          icon: 'fas fa-store',
+          icon: 'fas fa-tasks',
         },
         [
           app.translator.trans('xypp-forum-quests.forum.quest.quest')
