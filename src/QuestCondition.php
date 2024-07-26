@@ -25,7 +25,11 @@ class QuestCondition extends AbstractModel
     public function getAccumulation()
     {
         if ($this->accObj === null) {
-            $this->accObj = new ConditionAccumulation($this->accumulation);
+            $accumulation = $this->accumulation;
+            if ($accumulation === null) {
+                $accumulation = "{}";
+            }
+            $this->accObj = new ConditionAccumulation($accumulation);
         }
         return $this->accObj;
     }

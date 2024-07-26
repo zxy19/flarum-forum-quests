@@ -13,6 +13,6 @@ return Migration::createTable(
         $table->integer('user_id')->unsigned();
         $table->integer("value");
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        $table->mediumText("accumulation")->default("[]");
+        $table->mediumText("accumulation")->nullable();
     }
 );

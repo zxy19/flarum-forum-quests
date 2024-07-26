@@ -28,10 +28,14 @@ class QuestConditionSerializer extends AbstractSerializer
             );
         }
 
+        $accumulation = $model->accumulation;
+        if ($accumulation === null) {
+            $accumulation = "{}";
+        }
         return [
             "name" => $model->name,
             "value" => $model->value,
-            "accumulation" => $model->accumulation
+            "accumulation" => $accumulation
         ];
     }
 }
