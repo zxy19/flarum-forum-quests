@@ -10,7 +10,8 @@ import { ConditionData, OPERATOR, RewardData } from '../../common/types/data';
 import { showIf } from '../../common/utils/NodeUtil';
 import HumanizeUtils from '../../common/utils/HumanizeUtils';
 export default class editModal extends Modal<{
-    item?: QuestInfo
+    item?: QuestInfo,
+    update: (item: QuestInfo) => void,
 } & IInternalModalAttrs> {
     REG_CONDITIONS: Record<string, string> = {}
     REG_REWARDS: Record<string, string> = {}
@@ -107,9 +108,12 @@ export default class editModal extends Modal<{
                     </div>
                     <div className="Form-group">
                         <label for="xypp-quests-create-ipt-icon">{app.translator.trans('xypp-forum-quests.admin.create-modal.icon')}</label>
-                        <input id="xypp-quests-create-ipt-icon" className="FormControl" type="text" step="any" value={this.icon} onchange={((e: InputEvent) => {
-                            this.icon = (e.target as HTMLInputElement).value;
-                        }).bind(this)} />
+                        <div class="xypp-quests-create-icon-preview">
+                            <input id="xypp-quests-create-ipt-icon" className="FormControl" type="text" step="any" value={this.icon} onchange={((e: InputEvent) => {
+                                this.icon = (e.target as HTMLInputElement).value;
+                            }).bind(this)} />
+                            {showIf(!!this.icon, <i className={this.icon}></i>)}
+                        </div>
                     </div>
                     <div className="Form-group">
                         <Switch state={this.hidden} onchange={((e: boolean) => {
@@ -269,13 +273,13 @@ export default class editModal extends Modal<{
         e.preventDefault();
         this.loading = true;
         m.redraw();
-        let item = this.attrs.item || app.store.createRecord('quest-infos');
+        let item = this.attrs.item || app.store.createRecord<QuestInfo>('quest-infos');
         let re_available = "";
         if (this.re_available_type != 'none') {
             re_available = this.re_available_type + ':' + this.re_available_value;
         }
         try {
-            await item.save({
+            const newItem = await item.save({
                 conditions: JSON.stringify(this.conditions.filter(item => item.name != '*')),
                 rewards: JSON.stringify(this.rewards.filter(item => item.name != '*')),
                 name: this.name,
@@ -284,6 +288,7 @@ export default class editModal extends Modal<{
                 icon: this.icon,
                 hidden: this.hidden
             });
+            this.attrs.update && this.attrs.update(newItem);
             app.modal.close();
         } finally {
             this.loading = false;
@@ -295,7 +300,7 @@ export default class editModal extends Modal<{
         this.rewardGettingValue[id] = true;
         m.redraw();
         const result = await HumanizeUtils.getInstance().rewardSelection(this.rewards[id].name);
-        this.rewards[id].value = result;
+        if (result) this.rewards[id].value = result;
         this.rewardGettingValue[id] = false;
         m.redraw();
     }

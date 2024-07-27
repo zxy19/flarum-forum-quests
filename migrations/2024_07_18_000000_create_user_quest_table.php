@@ -9,7 +9,7 @@ return Migration::createTable(
     function (Blueprint $table) {
         $table->increments('id');
         $table->timestamps();
-        $table->timestamp('refresh_at');
+        $table->timestamp('refresh_at')->nullable();
         $table->integer('user_id')->unsigned();
         $table->integer('quest_info_id')->unsigned();
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

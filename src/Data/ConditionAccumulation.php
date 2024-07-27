@@ -31,17 +31,13 @@ class ConditionAccumulation
             } else if ($key == "flg") {
                 $this->updateFlag = $value;
             } else {
-                $date = Carbon::createFromDate(substr($key, 0, 4), substr($key, 4, 2), substr($key, 6, 2));
                 $this->data[] = [
-                    "date" => $date,
+                    "date" => $key,
                     "value" => $value
                 ];
             }
         }
-        usort($this->data, function ($a, $b) {
-            //Reversed sort
-            return -($a["date"]->timestamp - $b["date"]->timestamp);
-        });
+        $this->sort();
     }
     public function __tostring(): string
     {
@@ -53,7 +49,7 @@ class ConditionAccumulation
         $count = 0;
         $keys = [];
         foreach ($this->data as $value) {
-            $key = $value["date"]->format("Ymd");
+            $key = $value["date"];
             if (isset($data[$key])) {
                 $data[$key] += $value["value"];
             } else {
@@ -64,11 +60,11 @@ class ConditionAccumulation
         }
         if ($count > self::MAX_KEEP_DAYS) {
             usort($keys, function ($a, $b) {
-                return -($a->timestamp - $b->timestamp);
+                return ($a > $b) ? -1 : 1;
             });
             while ($count > self::MAX_KEEP_DAYS) {
-                $this->rest += $data[$keys[$count - 1]->format("Ymd")];
-                unset($data[$keys[$count - 1]->format("Ymd")]);
+                $this->rest += $data[$keys[$count - 1]];
+                unset($data[$keys[$count - 1]]);
                 $count--;
             }
         }
@@ -83,7 +79,7 @@ class ConditionAccumulation
         if ($this->sorted)
             return;
         usort($this->data, function ($a, $b) {
-            return -($a["date"]->timestamp - $b["date"]->timestamp);
+            return ($a["date"] > $b["date"]) ? -1 : 1;
         });
         $this->sorted = true;
     }
@@ -91,12 +87,12 @@ class ConditionAccumulation
     {
         $this->sort();
         $ret = 0;
-        $begin = $ref->copy()->setDate(0, 0, 0);
+        $begin = $ref->format("Ymd");
         if ($days > 1) {
-            $begin = $begin->subDays($days - 1);
+            $begin = $ref->copy()->subDays($days - 1)->format("Ymd");
         }
         for ($i = 0; $i < count($this->data); $i++) {
-            if ($begin->lte($this->data[$i]["date"])) {
+            if ($this->data[$i]["date"] >= $begin) {
                 $ret += $this->data[$i]['value'];
             } else {
                 break;
@@ -110,7 +106,7 @@ class ConditionAccumulation
     }
     public function updateValue(Carbon $ref, int $value, bool $relative = true)
     {
-        $ref = $ref->copy()->setTime(0, 0, 0);
+        $ref = $ref->copy()->format("Ymd");
         $this->dirty = true;
         if (!count($this->data)) {
             $this->data[] = [
@@ -118,7 +114,7 @@ class ConditionAccumulation
                 "value" => $value
             ];
             $this->total += $value;
-        } elseif ($ref->isSameDay($this->data[0]["date"])) {
+        } elseif ($ref == $this->data[0]["date"]) {
             if (!$relative) {
                 $this->total += $value - $this->data[0]["value"];
                 $this->data[0]["value"] = $value;

@@ -118,7 +118,6 @@ class ConditionHelper
                 }
             });
         }
-
         $conditions = $questInfo->getUserConditions($user)->get();
         $questInfo->eachConditions(
             function ($name, $operator, $value, $span) use ($conditions, &$isOk) {

@@ -64,11 +64,18 @@ class ListQuestInfosController extends AbstractListController
             $query->where(function ($query) use ($filterDone, $now) {
                 if ($filterDone == 'true')
                     $query = $query
-                        ->whereNull("user_quest.refresh_at")
-                        ->orWhere('user_quest.refresh_at', '>=', $now);
+                        ->whereNotNull('user_quest.user_id')
+                        ->where(function ($query) use ($now) {
+                            $query->whereNull("user_quest.refresh_at")
+                                ->orWhere('user_quest.refresh_at', '>=', $now);
+                        });
                 else
-                    $query = $query->whereNotNull('user_quest.refresh_at')
-                        ->where('user_quest.refresh_at', '<', $now);
+                    $query = $query
+                        ->whereNull('user_quest.user_id')
+                        ->orWhere(function ($query) use ($now) {
+                            $query->whereNotNull('user_quest.refresh_at')
+                                ->where('user_quest.refresh_at', '<', $now);
+                        });
             });
         }
         $query = $query->where(function ($query) use ($now) {

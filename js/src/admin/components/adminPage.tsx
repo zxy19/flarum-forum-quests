@@ -85,7 +85,12 @@ export default class adminPage extends ExtensionPage {
     }
 
     create() {
-        app.modal.show(editModal, { item: null });
+        app.modal.show(editModal, {
+            item: null, update: (item: QuestInfo) => {
+                this.items.push(item);
+                m.redraw();
+            }
+        });
     }
     async loadMore() {
         this.item_loading = true;
@@ -102,7 +107,17 @@ export default class adminPage extends ExtensionPage {
     click(e: MouseEvent) {
         const id = (e.currentTarget as HTMLButtonElement).getAttribute("data-id");
         if (!id) return;
-        app.modal.show(editModal, { item: app.store.getById<QuestInfo>("quest-infos", id) });
+        app.modal.show(editModal, {
+            item: app.store.getById<QuestInfo>("quest-infos", id), update: (item: QuestInfo) => {
+                this.items = this.items.map((item) => {
+                    if (item.id() == id) {
+                        return item;
+                    }
+                    return item;
+                });
+                m.redraw();
+            }
+        });
     }
     remove(e: MouseEvent) {
         const id = (e.currentTarget as HTMLButtonElement).getAttribute("data-id");
