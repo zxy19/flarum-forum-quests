@@ -58,7 +58,7 @@ xypp-forum-quests:
         reloads: "Page Reloads"
         store_purchased: "Store Purchased"
         discussion_replied: "Discussion Replied"
-        discussion_views: "Discussion Views"
+        discussion_views: "Discussion was view"
         badge_received: "Badge Received"
       reward:
         money: "Money"

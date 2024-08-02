@@ -58,7 +58,7 @@ xypp-forum-quests:
         reloads: "页面重载"
         store_purchased: "购买商品"
         discussion_replied: "被回复"
-        discussion_views: "讨论浏览"
+        discussion_views: "讨论被浏览"
         badge_received: "获得徽章"
       reward:
         money: "钱"

@@ -21,8 +21,8 @@ class DiscussionViewed
             return;
         $this->events->dispatch(
             new QuestConditionData(
-                $event->getDiscussion()->user()->first(),
-                [new ConditionData('discussion_count', 1)]
+                $user,
+                [new ConditionData('discussion_views', 1)]
             )
         );
     }
