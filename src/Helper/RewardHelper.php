@@ -5,14 +5,14 @@ namespace Xypp\ForumQuests\Helper;
 use Flarum\Foundation\ValidationException;
 use Flarum\Locale\Translator;
 use Flarum\User\User;
-use Xypp\ForumQuests\Extend\QuestRewardCollection;
+use Xypp\ForumQuests\Extend\RewardDefinitionCollection;
 use Xypp\ForumQuests\QuestInfo;
 use Xypp\ForumQuests\RewardDefinition;
 
 class RewardHelper
 {
-    public QuestRewardCollection $collection;
-    public function __construct(QuestRewardCollection $collection)
+    public RewardDefinitionCollection $collection;
+    public function __construct(RewardDefinitionCollection $collection)
     {
         $this->collection = $collection;
     }

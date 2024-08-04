@@ -7,18 +7,30 @@ export function init(app: ForumApplication | AdminApplication, fe: string) {
     const base = `xypp-forum-quests.${fe}.integration`
     addCondition("post_count", app.translator.trans(`${base}.condition.post_count`) + "");
     addCondition("user_page_view", app.translator.trans(`${base}.condition.user_page_view`) + "");
-    addCondition("like_recv", app.translator.trans(`${base}.condition.like_recv`) + "");
-    addCondition("like_send", app.translator.trans(`${base}.condition.like_send`) + "");
     addCondition("discussion_count", app.translator.trans(`${base}.condition.discussion_count`) + "")
     addCondition("discussion_replied", app.translator.trans(`${base}.condition.discussion_replied`) + "");
-    addCondition("discussion_views", app.translator.trans(`${base}.condition.discussion_views`) + "");
-    addCondition("store_purchased", app.translator.trans(`${base}.condition.store_purchased`) + "");
     addCondition("reloads", app.translator.trans(`${base}.condition.reloads`) + "");
-    addCondition("badge_received", app.translator.trans(`${base}.condition.badge_received`) + "");
+
+    if (flarum.extensions['xypp-store'])
+        addCondition("store_purchased", app.translator.trans(`${base}.condition.store_purchased`) + "");
+
+    if (flarum.extensions['flarum-likes']) {
+        addCondition("like_recv", app.translator.trans(`${base}.condition.like_recv`) + "");
+        addCondition("like_send", app.translator.trans(`${base}.condition.like_send`) + "");
+    }
+    if (flarum.extensions['v17development-user-badges'])
+        addCondition("badge_received", app.translator.trans(`${base}.condition.badge_received`) + "");
+
+    if (flarum.extensions['michaelbelgium-discussion-views'])
+        addCondition("discussion_views", app.translator.trans(`${base}.condition.discussion_views`) + "");
 
     addReward("money", app.translator.trans(`${base}.reward.money`) + "");
-    addStoreItem(app, base);
-    addBadge(app, base);
+
+    if (flarum.extensions['xypp-store'])
+        addStoreItem(app, base);
+
+    if (flarum.extensions['v17development-user-badges'])
+        addBadge(app, base);
 }
 function addStoreItem(app: ForumApplication | AdminApplication, base: string) {
     const storeItemLoadingMap: Record<string, boolean> = {}

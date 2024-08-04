@@ -6,7 +6,7 @@ use Flarum\Foundation\ValidationException;
 use Flarum\Locale\Translator;
 use Xypp\ForumQuests\RewardDefinition;
 
-class QuestRewardCollection
+class RewardDefinitionCollection
 {
     public Translator $translator;
     public static array $rewardDefinitions = [];

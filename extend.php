@@ -22,6 +22,7 @@ use Xypp\ForumQuests\Listener\QuestConditionModifierListener;
 use Xypp\ForumQuests\Notification\QuestDoneNotification;
 use Xypp\ForumQuests\Console\UpdateCondition;
 use Xypp\ForumQuests\Console\UpdateRefreshCommand;
+use Xypp\ForumQuests\Provider\QuestSeriviceProvider;
 
 return array_merge(
     [
@@ -54,9 +55,11 @@ return array_merge(
             ->command(UpdateCondition::class)
             ->command(UpdateRefreshCommand::class)
             ->command(RecalculateCondition::class),
+        (new Extend\ServiceProvider())
+            ->register(QuestSeriviceProvider::class),
         (new Extend\Settings())
             ->default('xypp.forum-quests.allow_update', true)
     ]
     ,
-    (new Integrations())()
+    require (__DIR__ . '/src/Integration/Integrations.php')
 );

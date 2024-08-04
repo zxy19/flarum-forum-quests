@@ -9,7 +9,7 @@ use Xypp\ForumQuests\ConditionDefinition;
 use Xypp\ForumQuests\Helper\ConditionHelper;
 use Xypp\ForumQuests\RewardDefinition;
 
-class QuestRewardProvider implements ExtenderInterface
+class RewardProvider implements ExtenderInterface
 {
     protected array $conditionsDefinitions = [];
 
@@ -28,8 +28,8 @@ class QuestRewardProvider implements ExtenderInterface
     public function extend(Container $container, Extension $extension = null)
     {
         $container->resolving(
-            QuestRewardCollection::class,
-            function (QuestRewardCollection $collection, Container $container) {
+            RewardDefinitionCollection::class,
+            function (RewardDefinitionCollection $collection, Container $container) {
                 foreach ($this->conditionsDefinitions as $conditionDefinition) {
                     $obj = $container->make($conditionDefinition);
                     $obj->extend($container);

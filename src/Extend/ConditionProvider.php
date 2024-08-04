@@ -8,7 +8,7 @@ use \Illuminate\Contracts\Container\Container;
 use Xypp\ForumQuests\ConditionDefinition;
 use Xypp\ForumQuests\Helper\ConditionHelper;
 
-class ConditionDefinitionProvider implements ExtenderInterface
+class ConditionProvider implements ExtenderInterface
 {
     protected array $conditionsDefinitions = [];
 
