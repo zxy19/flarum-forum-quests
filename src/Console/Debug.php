@@ -44,12 +44,21 @@ class Debug extends Command
     {
         $user = User::find($this->argument("id"));
         $this->info("User: " . $user->username);
-
+        $now = $this->cz->now();
+        $this->info("Now Time: " . $now);
         QuestCondition::where("user_id", $user->id)->get()->each(function ($condition) use ($user) {
             $conditionName = $condition->name;
             $this->info("Condition: " . $conditionName);
             $this->info("\t- Value: " . $condition->value);
-            $this->info("\t- Accumulation: " . $condition->getAccumulation()->total);
+            $now = $this->cz->now();
+
+            /**
+             * @var ConditionAccumulation $accumulation
+             */
+            $accumulation = $condition->getAccumulation();
+            $this->info("Accumulation(Today): " . $accumulation->getSpan($now, 1));
+            $this->info("Accumulation(5 days): " . $accumulation->getSpan($now, 5));
+            $this->info("Accumulation(Total): " . $accumulation->total);
         });
         $this->info("Achievement check");
         QuestInfo::all()->each(function (QuestInfo $questInfo) use ($user) {
@@ -73,7 +82,7 @@ class Debug extends Command
                         $this->warn("\t\t- Current value: " . $this->getValue($span, $condition));
                         $this->warn("\t\t- Target value: " . $condition->value);
                         $this->warn("\t\t- Target Span: " . $span);
-                        
+
                     }
                 }
             );
