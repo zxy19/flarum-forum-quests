@@ -34,7 +34,7 @@ class QuestInfo extends AbstractModel
             $callback($reward->name, $reward->value);
         }
     }
-    public function addReward(string $name, string $value,string $alterName = null)
+    public function addReward(string $name, string $value, string $alterName = null)
     {
         $this->loadObjs();
         $this->parsed_rewards[] = (object) [
@@ -98,7 +98,7 @@ class QuestInfo extends AbstractModel
      */
     public function getUserConditions(User $user)
     {
-        return $this->hasManyThrough(QuestCondition::class, QuestConditionQuestInfo::class, "quest_info_id", "name", "id", "condition_name");
+        return $this->hasManyThrough(QuestCondition::class, QuestConditionQuestInfo::class, "quest_info_id", "name", "id", "condition_name")->where("user_id", $user->id);
     }
 
     public function getUserQuests(User $user)
