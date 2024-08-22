@@ -14,6 +14,7 @@ use Tobscure\JsonApi\Document;
 use Xypp\ForumQuests\Api\Serializer\QuestInfoSerializer;
 use Xypp\ForumQuests\Helper\CarbonZoneHelper;
 use Xypp\ForumQuests\QuestInfo;
+use Xypp\ForumQuests\UserQuest;
 
 class ListQuestInfosController extends AbstractListController
 {
@@ -55,11 +56,11 @@ class ListQuestInfosController extends AbstractListController
         $offset = $this->extractOffset($request);
         $filterDone = Arr::get($request->getQueryParams(), 'filter', "all");
         $now = $this->carbonZoneHelper->now();
-        $query = QuestInfo::query()->leftJoin('user_quest', function ($join) use ($actor) {
+
+        $query = QuestInfo::query()->leftJoinSub(UserQuest::where("user_id", $actor->id), 'user_quest', function ($join){
             $join->on('quest_info.id', '=', 'user_quest.quest_info_id');
-        })->where(function ($query) use ($actor) {
-            $query->where('user_quest.user_id', '=', $actor->id)->orWhereNull('user_quest.user_id');
         });
+
         if ($filterDone != "all") {
             $query->where(function ($query) use ($filterDone, $now) {
                 if ($filterDone == 'true')
