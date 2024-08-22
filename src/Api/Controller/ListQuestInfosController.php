@@ -80,8 +80,10 @@ class ListQuestInfosController extends AbstractListController
         }
         $query = $query->where(function ($query) use ($now) {
             $query
-                ->whereNull("user_quest.refresh_at")
-                ->whereNotNull("user_quest.user_id")
+                ->where(function ($query) {
+                    $query->whereNull("user_quest.refresh_at")
+                        ->whereNotNull("user_quest.user_id");
+                })
                 ->orWhere('user_quest.refresh_at', '>=', $now)
                 ->orWhere("hidden", "!=", 1);
         });
