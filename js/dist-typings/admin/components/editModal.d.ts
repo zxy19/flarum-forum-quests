@@ -5,6 +5,7 @@ import QuestInfo from '../../common/models/QuestInfo';
 import { ConditionData, RewardData } from '../../common/types/data';
 export default class editModal extends Modal<{
     item?: QuestInfo;
+    update: (item: QuestInfo) => void;
 } & IInternalModalAttrs> {
     REG_CONDITIONS: Record<string, string>;
     REG_REWARDS: Record<string, string>;

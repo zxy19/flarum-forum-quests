@@ -8,7 +8,7 @@ import QuestPage from './components/QuestPage';
 import { init } from '../common/integration';
 import { registerCount } from './integration/pageCount';
 app.initializers.add('xypp/forum-quests', () => {
-  init(app,"forum");
+  init(app, "forum");
   registerCount();
   app.notificationComponents.quest_done = QuestDoneNotification;
   app.routes['quest_page'] = {
@@ -39,3 +39,7 @@ app.initializers.add('xypp/forum-quests', () => {
     );
   });
 });
+
+import { addCondition, addReward, addRewardSelection, rewardValueConvert } from '../common/utils/AddFrontend';
+import { triggerCondition, triggerConditions } from './utils/frontendTrigger';
+export { addCondition, addReward, addRewardSelection, rewardValueConvert, triggerCondition, triggerConditions };
