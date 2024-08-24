@@ -36,6 +36,9 @@ class QuestSeriviceProvider extends AbstractServiceProvider
             $collector->addDefinition(new ConditionDefinition("user_page_view", true));
             $collector->addDefinition(new ConditionDefinition("reloads"));
 
+            $collector->addDefinition(new ConditionDefinition("email_changed"));
+            $collector->addDefinition(new ConditionDefinition("avatar_changed"));
+
             $collector->addDefinition($container->make(DiscussionCount::class));
             $collector->addDefinition($container->make(PostCount::class));
             $collector->addDefinition($container->make(DiscussionReplied::class));

@@ -21,6 +21,7 @@ function limitTypeOnce(type: string, newKey: string, cb: (type: string) => void)
 
 export function registerCount() {
     extend(UserPage.prototype, "show", function () {
-        limitTypeOnce("user_page_view", this.user?.slug() as string, t => limitCount(t, 5, t => triggerCondition(t, 1)));
+        if (app.session?.user)
+            limitTypeOnce("user_page_view", this.user?.slug() as string, t => limitCount(t, 5, t => triggerCondition(t, 1)));
     })
 }

@@ -12,6 +12,8 @@ xypp-forum-quests:
         discussion_replied: => xypp-forum-quests.ref.integration.condition.discussion_replied
         discussion_views: => xypp-forum-quests.ref.integration.condition.discussion_views
         badge_received: => xypp-forum-quests.ref.integration.condition.badge_received
+        email_changed: => xypp-forum-quests.ref.integration.condition.email_changed
+        avatar_changed: => xypp-forum-quests.ref.integration.condition.avatar_changed
       reward:
         money: => xypp-forum-quests.ref.integration.reward.money
         store_item: => xypp-forum-quests.ref.integration.reward.store_item
@@ -36,6 +38,8 @@ xypp-forum-quests:
         discussion_replied: => xypp-forum-quests.ref.integration.condition.discussion_replied
         discussion_views: => xypp-forum-quests.ref.integration.condition.discussion_views
         badge_received: => xypp-forum-quests.ref.integration.condition.badge_received
+        email_changed: => xypp-forum-quests.ref.integration.condition.email_changed
+        avatar_changed: => xypp-forum-quests.ref.integration.condition.avatar_changed
       reward:
         money: => xypp-forum-quests.ref.integration.reward.money
         store_item: => xypp-forum-quests.ref.integration.reward.store_item
@@ -60,6 +64,8 @@ xypp-forum-quests:
         discussion_replied: "被回复"
         discussion_views: "讨论被浏览"
         badge_received: "获得徽章"
+        email_changed: "修改邮箱"
+        avatar_changed: "修改头像"
       reward:
         money: "钱"
         store_item: "商品"

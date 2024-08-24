@@ -7,6 +7,8 @@ export function init(app: ForumApplication | AdminApplication, fe: string) {
     const base = `xypp-forum-quests.${fe}.integration`
     addCondition("post_count", app.translator.trans(`${base}.condition.post_count`) + "");
     addCondition("user_page_view", app.translator.trans(`${base}.condition.user_page_view`) + "");
+    addCondition("avatar_changed", app.translator.trans(`${base}.condition.avatar_changed`) + "");
+    addCondition("email_changed", app.translator.trans(`${base}.condition.email_changed`) + "");
     addCondition("discussion_count", app.translator.trans(`${base}.condition.discussion_count`) + "")
     addCondition("discussion_replied", app.translator.trans(`${base}.condition.discussion_replied`) + "");
     addCondition("reloads", app.translator.trans(`${base}.condition.reloads`) + "");

@@ -10,11 +10,15 @@ class QuestDoneNotification implements BlueprintInterface
 {
     public $user;
     public $quest;
+    public $data;
 
     public function __construct(QuestInfo $quest, User $user)
     {
         $this->quest = $quest;
         $this->user = $user;
+        $this->data = [
+            "achieve" => time()
+        ];
     }
 
     public function getSubject()
@@ -29,6 +33,7 @@ class QuestDoneNotification implements BlueprintInterface
 
     public function getData()
     {
+        return $this->data;
     }
 
     public static function getType()
