@@ -5,7 +5,7 @@ import Button from "flarum/common/components/Button";
 import { showIf } from "../../common/utils/NodeUtil";
 import LoadingIndicator from "flarum/common/components/LoadingIndicator";
 import editModal from "./editModal";
-import { HumanizeUtils } from "../../forum";
+import HumanizeUtils from "../../common/utils/HumanizeUtils";
 
 export default class adminPage extends ExtensionPage {
     items: QuestInfo[] = [];
