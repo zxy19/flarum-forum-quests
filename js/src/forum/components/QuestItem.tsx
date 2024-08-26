@@ -24,7 +24,7 @@ export default class QuestItem extends Component<{
         super.oncreate(vnode);
     }
     view() {
-        const humanize = HumanizeUtils.getInstance();
+        const humanize = HumanizeUtils.getInstance(app);
         return (
             <div className={this.attrs.item.done() ? "quest-item-container quest-done" : "quest-item-container"}>
                 <div className='quest-item-name'>

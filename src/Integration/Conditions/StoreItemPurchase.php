@@ -11,7 +11,7 @@ class StoreItemPurchase extends ConditionDefinition
     public bool $accumulateAbsolute = false;
     public function __construct()
     {
-        parent::__construct("store_purchased");
+        parent::__construct("store_purchased",null,"xypp-forum-quests.ref.integration.condition.store_purchased");
 
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool

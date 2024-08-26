@@ -10,6 +10,7 @@ import QuestItem from './QuestItem';
 import QuestCondition from '../../common/models/QuestCondition';
 import Select from 'flarum/common/components/Select';
 import QuestConditionViewModal from './QuestConditionViewModal';
+import HumanizeUtils from '../../common/utils/HumanizeUtils';
 export default class QuestPage extends Page {
     REG_STATUS = {
         "all": app.translator.trans('xypp-forum-quests.forum.quest_done.all'),
@@ -79,6 +80,7 @@ export default class QuestPage extends Page {
     async loadMore() {
         this.loading = true;
         m.redraw();
+        await HumanizeUtils.getInstance(app).loadDefinition();
         const newItems = await app.store.find<QuestInfo[]>('quest-infos', { page: { offset: this.offset, limit: 10 }, filter: this.currentFilter } as any);
         this.items.push(...newItems);
         this.loading = false;

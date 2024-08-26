@@ -10,7 +10,7 @@ class DiscussionReplied extends ConditionDefinition
 {
     public function __construct()
     {
-        parent::__construct("discussion_replied");
+        parent::__construct("discussion_replied",null,"xypp-forum-quests.ref.integration.condition.discussion_replied");
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool
     {

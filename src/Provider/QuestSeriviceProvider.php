@@ -33,11 +33,11 @@ class QuestSeriviceProvider extends AbstractServiceProvider
             $collector = new ConditionDefinitionCollection(
                 $container->make(Translator::class)
             );
-            $collector->addDefinition(new ConditionDefinition("user_page_view", true));
-            $collector->addDefinition(new ConditionDefinition("reloads"));
+            $collector->addDefinition(new ConditionDefinition("user_page_view", true, "xypp-forum-quests.ref.integration.condition.user_page_view"));
+            $collector->addDefinition(new ConditionDefinition("reloads", null, "xypp-forum-quests.ref.integration.condition.reloads"));
 
-            $collector->addDefinition(new ConditionDefinition("email_changed"));
-            $collector->addDefinition(new ConditionDefinition("avatar_changed"));
+            $collector->addDefinition(new ConditionDefinition("email_changed", null, "xypp-forum-quests.ref.integration.condition.email_changed"));
+            $collector->addDefinition(new ConditionDefinition("avatar_changed", null, "xypp-forum-quests.ref.integration.condition.avatar_changed"));
 
             $collector->addDefinition($container->make(DiscussionCount::class));
             $collector->addDefinition($container->make(PostCount::class));

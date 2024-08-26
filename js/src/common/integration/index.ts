@@ -5,28 +5,28 @@ import commonSelectionModal from "../components/commonSelectionModal";
 
 export function init(app: ForumApplication | AdminApplication, fe: string) {
     const base = `xypp-forum-quests.${fe}.integration`
-    addCondition("post_count", app.translator.trans(`${base}.condition.post_count`) + "");
-    addCondition("user_page_view", app.translator.trans(`${base}.condition.user_page_view`) + "");
-    addCondition("avatar_changed", app.translator.trans(`${base}.condition.avatar_changed`) + "");
-    addCondition("email_changed", app.translator.trans(`${base}.condition.email_changed`) + "");
-    addCondition("discussion_count", app.translator.trans(`${base}.condition.discussion_count`) + "")
-    addCondition("discussion_replied", app.translator.trans(`${base}.condition.discussion_replied`) + "");
-    addCondition("reloads", app.translator.trans(`${base}.condition.reloads`) + "");
+    // addCondition("post_count", app.translator.trans(`${base}.condition.post_count`) + "");
+    // addCondition("user_page_view", app.translator.trans(`${base}.condition.user_page_view`) + "");
+    // addCondition("avatar_changed", app.translator.trans(`${base}.condition.avatar_changed`) + "");
+    // addCondition("email_changed", app.translator.trans(`${base}.condition.email_changed`) + "");
+    // addCondition("discussion_count", app.translator.trans(`${base}.condition.discussion_count`) + "")
+    // addCondition("discussion_replied", app.translator.trans(`${base}.condition.discussion_replied`) + "");
+    // addCondition("reloads", app.translator.trans(`${base}.condition.reloads`) + "");
 
-    if (flarum.extensions['xypp-store'])
-        addCondition("store_purchased", app.translator.trans(`${base}.condition.store_purchased`) + "");
+    // if (flarum.extensions['xypp-store'])
+    //     addCondition("store_purchased", app.translator.trans(`${base}.condition.store_purchased`) + "");
 
-    if (flarum.extensions['flarum-likes']) {
-        addCondition("like_recv", app.translator.trans(`${base}.condition.like_recv`) + "");
-        addCondition("like_send", app.translator.trans(`${base}.condition.like_send`) + "");
-    }
-    if (flarum.extensions['v17development-user-badges'])
-        addCondition("badge_received", app.translator.trans(`${base}.condition.badge_received`) + "");
+    // if (flarum.extensions['flarum-likes']) {
+    //     addCondition("like_recv", app.translator.trans(`${base}.condition.like_recv`) + "");
+    //     addCondition("like_send", app.translator.trans(`${base}.condition.like_send`) + "");
+    // }
+    // if (flarum.extensions['v17development-user-badges'])
+    //     addCondition("badge_received", app.translator.trans(`${base}.condition.badge_received`) + "");
 
-    if (flarum.extensions['michaelbelgium-discussion-views'])
-        addCondition("discussion_views", app.translator.trans(`${base}.condition.discussion_views`) + "");
+    // if (flarum.extensions['michaelbelgium-discussion-views'])
+    //     addCondition("discussion_views", app.translator.trans(`${base}.condition.discussion_views`) + "");
 
-    addReward("money", app.translator.trans(`${base}.reward.money`) + "");
+    // addReward("money", app.translator.trans(`${base}.reward.money`) + "");
 
     if (flarum.extensions['xypp-store'])
         addStoreItem(app, base);
@@ -36,7 +36,7 @@ export function init(app: ForumApplication | AdminApplication, fe: string) {
 }
 function addStoreItem(app: ForumApplication | AdminApplication, base: string) {
     const storeItemLoadingMap: Record<string, boolean> = {}
-    addReward("store_item", app.translator.trans(`${base}.reward.store_item`) + "");
+    // addReward("store_item", app.translator.trans(`${base}.reward.store_item`) + "");
     rewardValueConvert("store_item", function (value: string) {
         const item = app.store.getById("store-item", value);
         if (!item) {
@@ -70,7 +70,7 @@ function addStoreItem(app: ForumApplication | AdminApplication, base: string) {
 }
 function addBadge(app: ForumApplication | AdminApplication, base: string) {
     const badgeLoadingMap: Record<string, boolean> = {}
-    addReward("badge", app.translator.trans(`${base}.reward.badge`) + "");
+    // addReward("badge", app.translator.trans(`${base}.reward.badge`) + "");
     rewardValueConvert("badge", function (value: string) {
         const item = app.store.getById("badges", value);
         if (!item) {

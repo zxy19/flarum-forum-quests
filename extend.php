@@ -14,6 +14,7 @@ namespace Xypp\ForumQuests;
 use Flarum\Extend;
 use Flarum\Frontend\Document;
 use Flarum\User\User;
+use Xypp\ForumQuests\Api\Controller\GetQuestDefinationController;
 use Xypp\ForumQuests\Api\Serializer\QuestInfoSerializer;
 use Xypp\ForumQuests\Console\Debug;
 use Xypp\ForumQuests\Console\RecalculateCondition;
@@ -24,15 +25,14 @@ use Xypp\ForumQuests\Notification\QuestDoneNotification;
 use Xypp\ForumQuests\Console\UpdateCondition;
 use Xypp\ForumQuests\Console\UpdateRefreshCommand;
 use Xypp\ForumQuests\Provider\QuestSeriviceProvider;
+use Xypp\ForumQuests\Router\QuestPageRoute;
 
 return array_merge(
     [
         (new Extend\Frontend('forum'))
             ->js(__DIR__ . '/js/dist/forum.js')
             ->css(__DIR__ . '/less/forum.less')
-            ->route('/quest_page', 'quest.index', function (Document $document) {
-                return $document;
-            }),
+            ->route('/quest_page', 'quest.index', QuestPageRoute::class),
         (new Extend\Frontend('admin'))
             ->js(__DIR__ . '/js/dist/admin.js')
             ->css(__DIR__ . '/less/admin.less'),
@@ -49,7 +49,8 @@ return array_merge(
             ->patch('/quest-infos/{id}', 'quest-infos.edit', Api\Controller\EditQuestInfoController::class)
             ->delete('/quest-infos/{id}', 'quest-infos.delete', Api\Controller\RemoveQuestInfoController::class)
             ->post('/quest-condition', 'quest-condition.trigger', Api\Controller\FrontendConditionUpdateController::class)
-            ->get('/quest-condition', 'quest-condition.index', Api\Controller\ListUserConditionsController::class),
+            ->get('/quest-condition', 'quest-condition.index', Api\Controller\ListUserConditionsController::class)
+            ->get('/quest-data', "quest-data.index", GetQuestDefinationController::class),
         (new Extend\Notification())
             ->type(QuestDoneNotification::class, QuestInfoSerializer::class, ['alert']),
         (new Extend\Console())
@@ -63,5 +64,5 @@ return array_merge(
             ->default('xypp.forum-quests.allow_update', true)
     ]
     ,
-    require (__DIR__ . '/src/Integration/Integrations.php')
+    require(__DIR__ . '/src/Integration/Integrations.php')
 );

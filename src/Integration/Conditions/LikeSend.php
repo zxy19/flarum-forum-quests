@@ -14,7 +14,7 @@ class LikeSend extends ConditionDefinition
     public ConnectionInterface $connection;
     public function __construct(ConnectionInterface $connection)
     {
-        parent::__construct("like_send");
+        parent::__construct("like_send",null,"xypp-forum-quests.ref.integration.condition.like_send");
         $this->connection = $connection;
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool

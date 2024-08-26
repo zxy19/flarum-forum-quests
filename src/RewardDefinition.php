@@ -8,12 +8,17 @@ use Illuminate\Container\Container;
 
 class RewardDefinition
 {
+    public ?string $translateKey = null;
     public string $name;
     public $cb;
-    public function __construct(?string $name = null, ?callable $cb = null)
+    public function __construct(?string $name = null, ?callable $cb = null, ?string $translateKey = null)
     {
         if ($name)
             $this->name = $name;
+        if ($cb)
+            $this->cb = $cb;
+        if ($translateKey)
+            $this->translateKey = $translateKey;
     }
     public function extend(Container $container)
     {

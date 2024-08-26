@@ -27,7 +27,7 @@ export default class QuestConditionViewModal extends Modal<{
                         {this.attrs.items.map((item, index) => {
                             return (
                                 <tr>
-                                    <td>{HumanizeUtils.getInstance().getConditionName(item.name())}</td>
+                                    <td>{HumanizeUtils.getInstance(app).getConditionName(item.name())}</td>
                                     <td>{item.value()}</td>
                                     <td>{item.getSpan(this.span)}</td>
                                 </tr>

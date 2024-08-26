@@ -11,7 +11,7 @@ class MoneyReward extends RewardDefinition
     private Dispatcher $dispatcher;
     public function __construct(Dispatcher $dispatcher)
     {
-        parent::__construct("money");
+        parent::__construct("money", null, "xypp-forum-quests.ref.integration.reward.money");
         $this->dispatcher = $dispatcher;
     }
     public function perform(\Flarum\User\User $user, $value): bool

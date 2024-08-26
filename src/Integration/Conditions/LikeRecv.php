@@ -13,7 +13,7 @@ class LikeRecv extends ConditionDefinition
     public ConnectionInterface $connection;
     public function __construct(ConnectionInterface $connection)
     {
-        parent::__construct("like_recv");
+        parent::__construct("like_recv",null,"xypp-forum-quests.ref.integration.condition.like_recv");
         $this->connection = $connection;
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool

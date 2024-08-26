@@ -39,7 +39,7 @@ export default class editModal extends Modal<{
     rewardGettingValue: Record<number, boolean> = {};
     oninit(vnode: any): void {
         super.oninit(vnode);
-        const humanize = HumanizeUtils.getInstance();
+        const humanize = HumanizeUtils.getInstance(app);
         console.log(humanize.getAllConditions().toArray(true));
 
         const conditions = humanize.getAllConditions().toObject();
@@ -299,7 +299,7 @@ export default class editModal extends Modal<{
         const id = parseInt((e.currentTarget as HTMLInputElement).getAttribute('data-id') as string);
         this.rewardGettingValue[id] = true;
         m.redraw();
-        const result = await HumanizeUtils.getInstance().rewardSelection(this.rewards[id].name);
+        const result = await HumanizeUtils.getInstance(app).rewardSelection(this.rewards[id].name);
         if (result) this.rewards[id].value = result;
         this.rewardGettingValue[id] = false;
         m.redraw();

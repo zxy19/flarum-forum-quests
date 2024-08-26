@@ -11,7 +11,7 @@ class DiscussionViews extends ConditionDefinition
 {
     public function __construct()
     {
-        parent::__construct("discussion_views");
+        parent::__construct("discussion_views",null,"xypp-forum-quests.ref.integration.condition.discussion_views");
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool
     {

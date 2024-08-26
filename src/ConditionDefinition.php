@@ -31,12 +31,19 @@ class ConditionDefinition
      */
     public bool $needManualUpdate = false;
 
-    public function __construct(?string $name = null, ?bool $frontend = false)
+    /**
+     * Translate key
+     */
+    public ?string $translateKey = null;
+
+    public function __construct(?string $name = null, ?bool $frontend = false, ?string $translateKey = null)
     {
         if ($name)
             $this->name = $name;
         if ($frontend)
             $this->allowFrontendTrigger = true;
+        if ($translateKey)
+            $this->translateKey = $translateKey;
     }
 
     public function compare(int $value, string $operator, int $compareValue): bool

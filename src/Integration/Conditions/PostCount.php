@@ -10,7 +10,7 @@ class PostCount extends ConditionDefinition
 {
     public function __construct()
     {
-        parent::__construct("post_count");
+        parent::__construct("post_count",null,"xypp-forum-quests.ref.integration.condition.post_count");
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool
     {

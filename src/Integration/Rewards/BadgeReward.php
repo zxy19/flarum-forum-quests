@@ -17,7 +17,7 @@ class BadgeReward extends RewardDefinition
     private NotificationSyncer $notifications;
     public function __construct(NotificationSyncer $notifications)
     {
-        parent::__construct("badge");
+        parent::__construct("badge",null,"xypp-forum-quests.ref.integration.reward.badge");
         $this->notifications = $notifications;
     }
     public function perform(\Flarum\User\User $user, $value): bool

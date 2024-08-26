@@ -5,6 +5,7 @@ import Button from "flarum/common/components/Button";
 import { showIf } from "../../common/utils/NodeUtil";
 import LoadingIndicator from "flarum/common/components/LoadingIndicator";
 import editModal from "./editModal";
+import { HumanizeUtils } from "../../forum";
 
 export default class adminPage extends ExtensionPage {
     items: QuestInfo[] = [];
@@ -95,6 +96,7 @@ export default class adminPage extends ExtensionPage {
     async loadMore() {
         this.item_loading = true;
         m.redraw();
+        await HumanizeUtils.getInstance(app).loadDefinition();
         const newItems = await app.store.find<QuestInfo[]>('quest-infos-admin', { page: { offset: this.offset, limit: 30 }, filter: this.currentFilter } as any);
         this.items.push(...newItems);
         this.item_loading = false;

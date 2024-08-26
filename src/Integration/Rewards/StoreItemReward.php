@@ -13,7 +13,7 @@ class StoreItemReward extends RewardDefinition
     private StoreHelper $storeHelper;
     public function __construct(StoreHelper $storeHelper)
     {
-        parent::__construct("store_item");
+        parent::__construct("store_item", null, "xypp-forum-quests.ref.integration.reward.store_item");
         $this->storeHelper = $storeHelper;
     }
     public function perform(\Flarum\User\User $user, $value): bool

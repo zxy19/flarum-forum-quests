@@ -11,7 +11,7 @@ class BadgeReceived extends ConditionDefinition
     public bool $needManualUpdate = true;
     public function __construct()
     {
-        parent::__construct("badge_received");
+        parent::__construct("badge_received", null, "xypp-forum-quests.ref.integration.condition.badge_received");
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool
     {

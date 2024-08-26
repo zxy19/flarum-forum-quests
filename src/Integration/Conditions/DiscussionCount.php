@@ -10,7 +10,7 @@ class DiscussionCount extends ConditionDefinition
 {
     public function __construct()
     {
-        parent::__construct("discussion_count");
+        parent::__construct("discussion_count", null, "xypp-forum-quests.ref.integration.condition.discussion_count");
     }
     public function getAbsoluteValue(\Flarum\User\User $user, ConditionAccumulation $conditionAccumulation): bool
     {
