@@ -33,9 +33,9 @@ class QuestSeriviceProvider extends AbstractServiceProvider
             $collector = new ConditionDefinitionCollection(
                 $container->make(Translator::class)
             );
+            // Core features
             $collector->addDefinition(new ConditionDefinition("user_page_view", true, "xypp-forum-quests.ref.integration.condition.user_page_view"));
             $collector->addDefinition(new ConditionDefinition("reloads", null, "xypp-forum-quests.ref.integration.condition.reloads"));
-
             $collector->addDefinition(new ConditionDefinition("email_changed", null, "xypp-forum-quests.ref.integration.condition.email_changed"));
             $collector->addDefinition(new ConditionDefinition("avatar_changed", null, "xypp-forum-quests.ref.integration.condition.avatar_changed"));
 
@@ -43,23 +43,42 @@ class QuestSeriviceProvider extends AbstractServiceProvider
             $collector->addDefinition($container->make(PostCount::class));
             $collector->addDefinition($container->make(DiscussionReplied::class));
 
-            $collector->addDefinition($container->make(DiscussionViews::class));
+            // Integrate with michaelbelgium/flarum-discussion-views
+            if (class_exists(\Michaelbelgium\Discussionviews\Models\DiscussionView::class))
+                $collector->addDefinition($container->make(DiscussionViews::class));
 
-            $collector->addDefinition($container->make(LikeRecv::class));
-            $collector->addDefinition($container->make(LikeSend::class));
+            // Integrate with flarum-likes
+            if (class_exists(\Flarum\Likes\Event\PostWasLiked::class)) {
+                $collector->addDefinition($container->make(LikeRecv::class));
+                $collector->addDefinition($container->make(LikeSend::class));
+            }
 
-            $collector->addDefinition($container->make(StoreItemPurchase::class));
+            // Integrate with xypp-store
+            if (class_exists(\Xypp\Store\StoreItem::class))
+                $collector->addDefinition($container->make(StoreItemPurchase::class));
 
-            $collector->addDefinition($container->make(BadgeReceived::class));
+            // v17development/flarum-user-badges
+            if (class_exists(\V17Development\FlarumUserBadges\Badge\Badge::class))
+                $collector->addDefinition($container->make(BadgeReceived::class));
+
             return $collector;
         });
         $this->container->singleton(RewardDefinitionCollection::class, function (Container $container) {
             $collector = new RewardDefinitionCollection(
                 $container->make(Translator::class)
             );
-            $collector->addDefinition($container->make(MoneyReward::class));
-            $collector->addDefinition($container->make(BadgeReward::class));
-            $collector->addDefinition($container->make(StoreItemReward::class));
+            // Integrate with AntoineFr/money
+            if (class_exists(\AntoineFr\Money\Event\MoneyUpdated::class))
+                $collector->addDefinition($container->make(MoneyReward::class));
+
+            // Integrate with v17development/flarum-user-badges
+            if (class_exists(\V17Development\FlarumUserBadges\Badge\Badge::class))
+                $collector->addDefinition($container->make(BadgeReward::class));
+
+            // Integrate with xypp-store
+            if (class_exists(\Xypp\Store\StoreItem::class))
+                $collector->addDefinition($container->make(StoreItemReward::class));
+
             return $collector;
         });
     }
