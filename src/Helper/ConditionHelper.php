@@ -11,6 +11,8 @@ use Illuminate\Support\Collection;
 use Xypp\ForumQuests\ConditionDefinition;
 use Xypp\ForumQuests\Data\ConditionAccumulation;
 use Xypp\ForumQuests\Data\ConditionData;
+use Xypp\ForumQuests\Event\QuestConditionChange;
+use Xypp\ForumQuests\Event\QuestDone;
 use Xypp\ForumQuests\Extend\ConditionDefinitionCollection;
 use Xypp\ForumQuests\Notification\QuestDoneNotification;
 use Xypp\ForumQuests\QuestCondition;
@@ -19,6 +21,8 @@ use Xypp\ForumQuests\QuestInfo;
 use Xypp\ForumQuests\UserQuest;
 use Xypp\ForumQuests\Utils\ConditionUtils;
 use Xypp\ForumQuests\Utils\ReAvailableUtils;
+use Illuminate\Events\Dispatcher;
+
 
 class ConditionHelper
 {
@@ -27,18 +31,21 @@ class ConditionHelper
     public ConditionDefinitionCollection $collection;
     public CarbonZoneHelper $cz;
     public Translator $translator;
+    public Dispatcher $events;
     public function __construct(
         ConditionDefinitionCollection $collection,
         RewardHelper $rewardHelper,
         NotificationSyncer $notifications,
         CarbonZoneHelper $carbonZoneHelper,
-        Translator $translator
+        Translator $translator,
+        Dispatcher $events
     ) {
         $this->collection = $collection;
         $this->notifications = $notifications;
         $this->rewardHelper = $rewardHelper;
         $this->cz = $carbonZoneHelper;
         $this->translator = $translator;
+        $this->events = $events;
     }
     public function getAllConditionName(): array
     {
@@ -73,6 +80,8 @@ class ConditionHelper
             }
             return;
         }
+
+
         $conditionDefine = $this->collection->getConditionDefinition($data->name);
         if ($frontend && !$conditionDefine->allowFrontendTrigger) {
             throw new ValidationException([
@@ -80,12 +89,22 @@ class ConditionHelper
             ]);
         }
         $model = QuestCondition::lockForUpdate()->where('user_id', $user->id)->where('name', $data->name)->first();
+
         if (!$model) {
             $model = new QuestCondition();
             $model->user_id = $user->id;
             $model->name = $data->name;
             $model->value = 0;
         }
+
+        // Support for absolute value
+        if ($data->absolute) {
+            $data->value -= $model->value;
+            if ($data->value == 0) {
+                return;
+            }
+        }
+
         $model->value += $data->value;
         $model->getAccumulation()->updateValue($this->cz->now(), $data->value);
         if ($data->flag) {
@@ -93,6 +112,8 @@ class ConditionHelper
         }
         $model->updateTimestamps();
         $model->save();
+
+        $this->events->dispatch(new QuestConditionChange($user, $data, $model));
 
         $model->relatedQuest()->get()->each(function ($quest) use ($user, $model) {
             $this->updateAchieve($user, $quest, $model);
@@ -142,6 +163,8 @@ class ConditionHelper
             $userQuest->refresh_at = ReAvailableUtils::getExpireTime($questInfo->re_available, $currentTime);
             $userQuest->updateTimestamps();
             $userQuest->save();
+
+            $this->events->dispatch(new QuestDone($user, $questInfo, $userQuest));
 
             $this->rewardHelper->reward($user, $questInfo);
             $this->notifications->sync(new QuestDoneNotification($questInfo, $user), [$user]);

@@ -66,6 +66,7 @@ xypp-forum-quests:
         badge_received: "Badge Received"
         email_changed: "Change Email"
         avatar_changed: "Change Avatar"
+        money: "Money"
       reward:
         money: "Money"
         store_item: "Store Item"

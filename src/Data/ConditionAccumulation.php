@@ -145,4 +145,11 @@ class ConditionAccumulation
         $this->sorted = true;
         $this->rest = 0;
     }
+    public function resetTotal(int $total)
+    {
+        $this->clear();
+        $this->total = $total;
+        $this->rest = $total;
+        $this->dirty = true;
+    }
 }

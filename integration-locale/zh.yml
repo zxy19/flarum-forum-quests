@@ -66,8 +66,9 @@ xypp-forum-quests:
         badge_received: "获得徽章"
         email_changed: "修改邮箱"
         avatar_changed: "修改头像"
+        money: "货币"
       reward:
-        money: "钱"
+        money: "货币"
         store_item: "商品"
         store_item_loading: "..."
         store_item_error: "商品未找到"

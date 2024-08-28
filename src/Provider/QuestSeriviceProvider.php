@@ -16,6 +16,7 @@ use Xypp\ForumQuests\Integration\Conditions\DiscussionReplied;
 use Xypp\ForumQuests\Integration\Conditions\DiscussionViews;
 use Xypp\ForumQuests\Integration\Conditions\LikeRecv;
 use Xypp\ForumQuests\Integration\Conditions\LikeSend;
+use Xypp\ForumQuests\Integration\Conditions\Money;
 use Xypp\ForumQuests\Integration\Conditions\PostCount;
 use Xypp\ForumQuests\Integration\Conditions\StoreItemPurchase;
 use Xypp\ForumQuests\Integration\Rewards\BadgeReward;
@@ -42,6 +43,10 @@ class QuestSeriviceProvider extends AbstractServiceProvider
             $collector->addDefinition($container->make(DiscussionCount::class));
             $collector->addDefinition($container->make(PostCount::class));
             $collector->addDefinition($container->make(DiscussionReplied::class));
+
+            // Integrate with AntoineFr/money
+            if (class_exists(\AntoineFr\Money\Event\MoneyUpdated::class))
+                $collector->addDefinition($container->make(Money::class));
 
             // Integrate with michaelbelgium/flarum-discussion-views
             if (class_exists(\Michaelbelgium\Discussionviews\Models\DiscussionView::class))
