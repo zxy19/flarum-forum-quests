@@ -1,6 +1,6 @@
 {
     "name": "xypp/forum-quests",
-    "description": "Add quests support for user to pick, and reward with money or other things.",
+    "description": "Add quests to the forum, and reward with money or other things",
     "keywords": [
         "flarum"
     ],
