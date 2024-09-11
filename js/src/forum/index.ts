@@ -5,11 +5,7 @@ import NotificationGrid from 'flarum/forum/components/NotificationGrid';
 import LinkButton from 'flarum/common/components/LinkButton';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import QuestPage from './components/QuestPage';
-import { init } from '../common/integration';
-import { registerCount } from './integration/pageCount';
 app.initializers.add('xypp/forum-quests', () => {
-  init(app, "forum");
-  registerCount();
   app.notificationComponents.quest_done = QuestDoneNotification;
   app.routes['quest_page'] = {
     path: "/quest_page",
@@ -40,22 +36,13 @@ app.initializers.add('xypp/forum-quests', () => {
   });
 });
 
-import { addCondition, addReward, addRewardSelection, rewardValueConvert } from '../common/utils/AddFrontend';
 import { triggerCondition, triggerConditions } from './utils/frontendTrigger';
-import HumanizeUtils from '../common/utils/HumanizeUtils';
-import QuestCondition from '../common/models/QuestCondition';
 import QuestInfo from '../common/models/QuestInfo';
 import QuestConditionViewModal from './components/QuestConditionViewModal';
 import QuestItem from './components/QuestItem';
 export {
-  addCondition,
-  addReward,
-  addRewardSelection,
-  rewardValueConvert,
   triggerCondition,
   triggerConditions,
-  HumanizeUtils,
-  QuestCondition,
   QuestInfo,
   QuestConditionViewModal,
   QuestItem

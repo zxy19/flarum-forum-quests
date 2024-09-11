@@ -5,7 +5,7 @@ import Button from "flarum/common/components/Button";
 import { showIf } from "../../common/utils/NodeUtil";
 import LoadingIndicator from "flarum/common/components/LoadingIndicator";
 import editModal from "./editModal";
-import HumanizeUtils from "../../common/utils/HumanizeUtils";
+import { HumanizeUtils } from "@xypp-collector/forum";
 
 export default class adminPage extends ExtensionPage {
     items: QuestInfo[] = [];
@@ -16,18 +16,13 @@ export default class adminPage extends ExtensionPage {
     isRemoving: Record<string, boolean> = {};
     oncreate(vnode: any): void {
         super.oncreate(vnode);
+        HumanizeUtils.getInstance(app);
         this.loadMore();
     }
     content(vnode: any) {
         return <div className="xypp-forum-quests-adminPage-container">
             <div className="xypp-forum-quests-adminPage-settings Form-group">
                 <h2>{app.translator.trans('xypp-forum-quests.admin.settings')}</h2>
-                {this.buildSettingComponent({
-                    type: 'string',
-                    setting: 'xypp.forum-quests.timezone',
-                    default: 'UTC',
-                    label: app.translator.trans('xypp-forum-quests.admin.timezone'),
-                })}
                 {this.buildSettingComponent({
                     type: 'bool',
                     setting: 'xypp.forum-quests.allow_update',

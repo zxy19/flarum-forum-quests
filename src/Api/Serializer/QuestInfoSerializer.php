@@ -4,7 +4,7 @@ namespace Xypp\ForumQuests\Api\Serializer;
 
 use Flarum\Api\Serializer\AbstractSerializer;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Xypp\ForumQuests\Helper\ConditionHelper;
+use Xypp\Collector\Helper\ConditionHelper;
 use Xypp\ForumQuests\QuestInfo;
 use InvalidArgumentException;
 

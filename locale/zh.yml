@@ -5,15 +5,6 @@ xypp-forum-quests:
     notification:
       quest_done: "你刚刚完成了任务 {name}!"
       quest_done_label: 任务完成
-    condition:
-      condition: "条件"
-      format: "{span} <b>{name}</b>{operator}{value} "
-      and: " 并且 "
-      span: "在{span}天内"
-    reward:
-      reward: "奖励"
-      format: "<b>{name}</b>:{value}"
-      and: " 和 "
     quest:
       quest: "任务"
       load_more: "加载更多"
@@ -55,15 +46,6 @@ xypp-forum-quests:
       hidden: "隐藏"
       condition: "条件"
       reward: "奖励"
-      condition-name: "条件名"
-      condition-operator: "操作符"
-      condition-value: "条件值"
-      condition-span: "时间区间"
-      condition-alter_name: "显示名"
-      reward-name: "奖励名"
-      reward-value: "奖励值"
-      reward-get_value: "获取值"
-      reward-alter_name: "显示名"
       button: "创建"
       button-edit: "编辑"
       new_item: "新项"
@@ -73,6 +55,5 @@ xypp-forum-quests:
       day: "X天"
       hour: "X小时后"
   api:
-    condition_not_allow_frontend: "该条件不能由前端修改"
     no_manual_update: "无需手动更新"
     manual_condition_cannot_hidden: "需要手动更新的条件不能用于隐藏任务:{condition}"

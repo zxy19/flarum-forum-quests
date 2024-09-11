@@ -2,19 +2,26 @@
 
 namespace Xypp\ForumQuests\Listener;
 
-use Xypp\ForumQuests\Event\QuestConditionData;
-use Xypp\ForumQuests\Helper\ConditionHelper;
+use Xypp\Collector\Event\ConditionChange;
+use Xypp\Collector\Helper\ConditionHelper;
+use Xypp\ForumQuests\Helper\QuestHelper;
+use Xypp\ForumQuests\QuestInfo;
 
 class QuestConditionModifierListener
 {
     private ConditionHelper $conditionHelper;
-    public function __construct(ConditionHelper $conditionHelper)
+    private QuestHelper $questHelper;
+    public function __construct(ConditionHelper $conditionHelper, QuestHelper $questHelper)
     {
         $this->conditionHelper = $conditionHelper;
+        $this->questHelper = $questHelper;
     }
 
-    public function __invoke(QuestConditionData $event)
+    public function __invoke(ConditionChange $event)
     {
-        $this->conditionHelper->updateConditions($event->user, $event->data);
+        $quests = $event->condition->relatedQuest()->get();
+        $quests->each(function (QuestInfo $quest) use ($event) {
+            $this->questHelper->updateAchieve($event->user, $quest, $event->condition);
+        });
     }
 }

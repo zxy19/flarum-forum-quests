@@ -10,7 +10,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface;
 use Xypp\ForumQuests\Api\Serializer\QuestConditionSerializer;
-use Xypp\ForumQuests\Helper\ConditionHelper;
+use Xypp\Collector\Helper\ConditionHelper;
 use Xypp\ForumQuests\QuestInfo;
 use Tobscure\JsonApi\Document;
 
@@ -44,7 +44,11 @@ class ManualUpdateCondition extends AbstractListController
         if (!$updateManual) {
             return new ValidationException(["msg" => $this->translator->trans("xypp-forum-quests.api.no_manual_update")]);
         }
-        $conditions = $this->helper->updateConditionFromDatabase($actor, $quest_info);
-        return $conditions;
+
+        $quest_info->eachConditions(function ($name, $operator, $value, $span) use ($quest_info, $actor) {
+            $this->helper->updateUserCondition($actor, $name);
+        });
+
+        return $quest_info->getConditions();
     }
 }

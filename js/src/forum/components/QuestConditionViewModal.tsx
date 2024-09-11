@@ -1,9 +1,10 @@
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import app from 'flarum/forum/app';
-import HumanizeUtils from '../../common/utils/HumanizeUtils';
-import QuestCondition from '../../common/models/QuestCondition';
+
+import { HumanizeUtils, Condition } from '@xypp-collector/forum';
+
 export default class QuestConditionViewModal extends Modal<{
-    items: QuestCondition[]
+    items: Condition[]
 } & IInternalModalAttrs> {
     span: number = 0;
     className() {

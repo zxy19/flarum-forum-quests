@@ -2,34 +2,25 @@ import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import app from 'flarum/admin/app';
 import Button from 'flarum/common/components/Button';
 import Select from 'flarum/common/components/Select';
-import setRouteWithForcedRefresh from 'flarum/common/utils/setRouteWithForcedRefresh';
-import LinkButton from 'flarum/common/components/LinkButton';
 import Switch from "flarum/common/components/Switch"
 import QuestInfo from '../../common/models/QuestInfo';
-import { ConditionData, OPERATOR, RewardData } from '../../common/types/data';
 import { showIf } from '../../common/utils/NodeUtil';
-import HumanizeUtils from '../../common/utils/HumanizeUtils';
+import Stream from 'flarum/common/utils/Stream';
+
+import type { ConditionData, RewardData } from '@xypp-collector/common/types/data';
+import { HumanizeUtils, ConditionConfigure, RewardConfigure, OPERATOR } from '@xypp-collector/admin';
+
 export default class editModal extends Modal<{
     item?: QuestInfo,
     update: (item: QuestInfo) => void,
 } & IInternalModalAttrs> {
-    REG_CONDITIONS: Record<string, string> = {}
-    REG_REWARDS: Record<string, string> = {}
-    REG_OPERATOR: Record<string, string> = {
-        '=': '=',
-        '>': '>',
-        '>=': '>=',
-        '<': '<',
-        '<=': '<=',
-        '!=': '!='
-    }
     REG_RE_AVAILABLE: Record<string, string> = {
         'none': app.translator.trans('xypp-forum-quests.admin.re_available.none') + "",
         'day': app.translator.trans('xypp-forum-quests.admin.re_available.day') + "",
         'hour': app.translator.trans('xypp-forum-quests.admin.re_available.hour') + "",
     }
-    conditions: ConditionData[] = [];
-    rewards: RewardData[] = [];
+    conditions?: Stream<ConditionData[]>;
+    rewards?: Stream<RewardData[]>;
     name: string = "";
     desc: string = "";
     icon: string = "";
@@ -42,17 +33,6 @@ export default class editModal extends Modal<{
         const humanize = HumanizeUtils.getInstance(app);
         console.log(humanize.getAllConditions().toArray(true));
 
-        const conditions = humanize.getAllConditions().toObject();
-        Object.keys(conditions).forEach(item => {
-            this.REG_CONDITIONS[item] = conditions[item].content;
-        });
-        const reward = humanize.getAllRewards().toObject();
-        Object.keys(reward).forEach(item => {
-            this.REG_REWARDS[item] = reward[item].content;
-        });
-
-        this.REG_CONDITIONS['*'] = app.translator.trans('xypp-forum-quests.admin.create-modal.new_item') + "";
-        this.REG_REWARDS['*'] = app.translator.trans('xypp-forum-quests.admin.create-modal.new_item') + "";
         if (this.attrs.item) {
             const t_re_available = (this.attrs.item.re_available() || "").split(':');
             if (t_re_available.length == 2) {
@@ -60,22 +40,16 @@ export default class editModal extends Modal<{
             } else {
                 this.re_available_type = 'none';
             }
-            this.conditions = this.attrs.item.condition();
-            this.rewards = this.attrs.item.reward();
+            this.conditions = new Stream(this.attrs.item.condition());
+            this.rewards = new Stream(this.attrs.item.reward());
             this.name = this.attrs.item.name();
             this.desc = this.attrs.item.description();
             this.hidden = this.attrs.item.hidden();
             this.icon = this.attrs.item.icon();
+        }else{
+            this.conditions = new Stream([]);
+            this.rewards = new Stream([]);
         }
-        this.conditions.push({
-            name: '*',
-            operator: OPERATOR.EQUAL,
-            value: 0
-        });
-        this.rewards.push({
-            name: '*',
-            value: '*'
-        });
     }
     className() {
         return 'Modal Modal--large';
@@ -124,127 +98,11 @@ export default class editModal extends Modal<{
                     </div>
                     <div className="Form-group">
                         <label>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition')}</label>
-                        <table className='Table'>
-                            <thead>
-                                <tr>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-name')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-operator')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-value')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-span')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.condition-alter_name')}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.conditions.map((item, index) => {
-                                    return (
-                                        <tr>
-                                            <td>
-                                                <Select className="FormControl" value={item.name} options={this.REG_CONDITIONS} onchange={((name: string) => {
-                                                    if (this.conditions.length == index + 1) {
-                                                        this.conditions.push({
-                                                            name: '*',
-                                                            operator: OPERATOR.EQUAL,
-                                                            value: 0
-                                                        });
-                                                    }
-                                                    this.conditions[index].name = name;
-                                                }).bind(this)}>
-                                                </Select>
-                                            </td>
-                                            <td>
-                                                <Select className="FormControl" value={item.operator} options={this.REG_OPERATOR} onchange={((name: string) => {
-                                                    this.conditions[index].operator = name as OPERATOR;
-                                                }).bind(this)}>
-                                                </Select>
-                                            </td>
-                                            <td>
-                                                <input className="FormControl" type="text" value={item.value} onchange={((e: InputEvent) => {
-                                                    this.conditions[index].value = parseInt((e.target as HTMLInputElement).value);
-                                                }).bind(this)} />
-                                            </td>
-                                            <td>
-                                                <input className="FormControl" type="number" value={item.span} onchange={((e: InputEvent) => {
-                                                    this.conditions[index].span = (e.target as HTMLInputElement).value ? parseInt((e.target as HTMLInputElement).value) : undefined;
-                                                }).bind(this)} />
-                                            </td>
-                                            <td>
-                                                <input className="FormControl" type="text" value={item.alter_name || ""} onchange={((e: InputEvent) => {
-                                                    this.conditions[index].alter_name = (e.target as HTMLInputElement).value || undefined;
-                                                }).bind(this)} />
-                                            </td>
-                                            <td>
-                                                {showIf(item.name != '*',
-                                                    <Button className="Button Button--danger" onclick={((e: any) => {
-                                                        this.conditions.splice(index, 1);
-                                                        m.redraw();
-                                                    }).bind(this)} data-id={index}>
-                                                        <i class="fas fa-trash"></i>
-                                                    </Button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
+                        <ConditionConfigure conditions={this.conditions}></ConditionConfigure>
                     </div>
                     <div className='Form-group'>
                         <label>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward')}</label>
-                        <table className='Table'>
-                            <thead>
-                                <tr>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-name')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-value')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-get_value')}</th>
-                                    <th>{app.translator.trans('xypp-forum-quests.admin.create-modal.reward-alter_name')}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.rewards.map((item, index) => {
-                                    return (
-                                        <tr>
-                                            <td>
-                                                <Select className="FormControl" value={item.name} options={this.REG_REWARDS} onchange={((name: string) => {
-                                                    if (this.rewards.length == index + 1) {
-                                                        this.rewards.push({
-                                                            name: '*',
-                                                            value: '*'
-                                                        });
-                                                    }
-                                                    this.rewards[index].name = name;
-                                                }).bind(this)}>
-                                                </Select>
-                                            </td>
-                                            <td>
-                                                <input className="FormControl" type="text" value={item.value} onchange={((e: InputEvent) => {
-                                                    this.rewards[index].value = (e.target as HTMLInputElement).value;
-                                                }).bind(this)} />
-                                            </td>
-                                            <td>
-                                                <Button className="Button Button--primary" onclick={this.getValue.bind(this)} data-id={index}
-                                                    disabled={this.rewardGettingValue[index]} loading={this.rewardGettingValue[index]}>
-                                                    <i class="fas fa-eye"></i>
-                                                </Button>
-                                            </td>
-                                            <td>
-                                                <input className="FormControl" type="text" value={item.alter_name || ""} onchange={((e: InputEvent) => {
-                                                    this.rewards[index].alter_name = (e.target as HTMLInputElement).value || undefined;
-                                                }).bind(this)} />
-                                            </td>
-                                            <td>
-                                                {showIf(item.name != '*',
-                                                    <Button className="Button Button--danger" onclick={((e: any) => {
-                                                        this.rewards.splice(index, 1);
-                                                        m.redraw();
-                                                    }).bind(this)} data-id={index}>
-                                                        <i class="fas fa-trash"></i>
-                                                    </Button>)}
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
+                        <RewardConfigure rewards={this.rewards}></RewardConfigure>
                     </div>
                     <div className='Form-group'>
                         <label for="xypp-quests-create-ipt-re_available">
@@ -279,29 +137,24 @@ export default class editModal extends Modal<{
             re_available = this.re_available_type + ':' + this.re_available_value;
         }
         try {
+            const conditions: ConditionData[] = this.conditions();
+            const rewards: RewardData[] = this.rewards();
+
             const newItem = await item.save({
-                conditions: JSON.stringify(this.conditions.filter(item => item.name != '*')),
-                rewards: JSON.stringify(this.rewards.filter(item => item.name != '*')),
+                conditions: JSON.stringify(conditions.filter(item => item.name != '*')),
+                rewards: JSON.stringify(rewards.filter(item => item.name != '*')),
                 name: this.name,
                 description: this.desc,
                 re_available,
                 icon: this.icon,
                 hidden: this.hidden
             });
+
             this.attrs.update && this.attrs.update(newItem);
             app.modal.close();
         } finally {
             this.loading = false;
             m.redraw();
         }
-    }
-    async getValue(e: MouseEvent) {
-        const id = parseInt((e.currentTarget as HTMLInputElement).getAttribute('data-id') as string);
-        this.rewardGettingValue[id] = true;
-        m.redraw();
-        const result = await HumanizeUtils.getInstance(app).rewardSelection(this.rewards[id].name);
-        if (result) this.rewards[id].value = result;
-        this.rewardGettingValue[id] = false;
-        m.redraw();
     }
 }

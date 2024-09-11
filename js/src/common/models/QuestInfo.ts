@@ -1,8 +1,7 @@
 import Model from 'flarum/common/Model';
-import { ConditionData, RewardData } from '../types/data';
+import type { ConditionData, RewardData } from '@xypp-collector/common/types/data';
 
-// For more details about frontend models
-// checkout https://docs.flarum.org/extend/models.html#frontend-models
+
 function optionalJsonParser<T>(data: any): T[] {
   if (!data) {
     return [];

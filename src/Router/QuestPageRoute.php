@@ -3,8 +3,8 @@
 namespace Xypp\ForumQuests\Router;
 use Flarum\Locale\Translator;
 use Flarum\Frontend\Document;
-use Xypp\ForumQuests\Helper\ConditionHelper;
-use Xypp\ForumQuests\Helper\RewardHelper;
+use Xypp\Collector\Helper\ConditionHelper;
+use Xypp\Collector\Helper\RewardHelper;
 
 class QuestPageRoute
 {

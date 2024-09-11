@@ -7,10 +7,9 @@ import app from 'flarum/forum/app';
 import { showIf } from '../../common/utils/NodeUtil';
 import QuestInfo from '../../common/models/QuestInfo';
 import QuestItem from './QuestItem';
-import QuestCondition from '../../common/models/QuestCondition';
 import Select from 'flarum/common/components/Select';
 import QuestConditionViewModal from './QuestConditionViewModal';
-import HumanizeUtils from '../../common/utils/HumanizeUtils';
+import {HumanizeUtils,getConditionMap,getConditions,Condition} from '@xypp-collector/forum';
 export default class QuestPage extends Page {
     REG_STATUS = {
         "all": app.translator.trans('xypp-forum-quests.forum.quest_done.all'),
@@ -22,9 +21,9 @@ export default class QuestPage extends Page {
     currentFilter: string = "all";
     offset: number = 0;
     items: QuestInfo[] = [];
-    conditions: QuestCondition[] = [];
+    conditions: Condition[] = [];
     conditionLoading: boolean = false;
-    conditionMap: Record<string, QuestCondition> = {};
+    conditionMap: Record<string, Condition> = {};
     oninit(vnode: any): void {
         super.oninit(vnode);
     }
@@ -94,13 +93,8 @@ export default class QuestPage extends Page {
     async loadConditions() {
         this.conditionLoading = true;
         m.redraw();
-        this.conditions = app.store.all("quest-condition");
-        if (this.conditions.length == 0) {
-            this.conditions = await app.store.find<QuestCondition[]>('quest-condition');
-        }
-        this.conditions.forEach((item) => {
-            this.conditionMap[item.name()] = item;
-        });
+        this.conditions = await getConditions();
+        this.conditionMap = await getConditionMap();
         this.conditionLoading = false;
         m.redraw();
     }

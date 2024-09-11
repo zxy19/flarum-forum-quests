@@ -13,7 +13,7 @@ use Nette\Utils\Paginator;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 use Xypp\ForumQuests\Api\Serializer\QuestInfoSerializer;
-use Xypp\ForumQuests\Helper\CarbonZoneHelper;
+use Xypp\LocalizeDate\Helper\CarbonZoneHelper;
 use Xypp\ForumQuests\QuestInfo;
 
 class ShowQuestInfoController extends AbstractListController

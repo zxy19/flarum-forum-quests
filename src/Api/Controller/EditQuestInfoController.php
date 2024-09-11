@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Tobscure\JsonApi\Document;
 use Illuminate\Support\Arr;
 use Xypp\ForumQuests\Api\Serializer\QuestInfoSerializer;
-use Xypp\ForumQuests\Helper\ConditionHelper;
+use Xypp\Collector\Helper\ConditionHelper;
 use Xypp\ForumQuests\QuestInfo;
 use Xypp\Store\StoreItem;
 use Xypp\Store\Helper\ProviderHelper;

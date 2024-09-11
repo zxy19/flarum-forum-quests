@@ -3,11 +3,9 @@
 namespace Xypp\ForumQuests;
 
 use Flarum\Database\AbstractModel;
-use Flarum\Database\ScopeVisibilityTrait;
-use Flarum\Foundation\EventGeneratorTrait;
 use Flarum\User\User;
 use Serializable;
-use Xypp\ForumQuests\Enum\ConditionOperator;
+use Xypp\Collector\Condition;
 
 class QuestInfo extends AbstractModel
 {
@@ -25,6 +23,16 @@ class QuestInfo extends AbstractModel
         if ($this->parsed_conditions === null) {
             $this->parsed_conditions = json_decode($this->conditions);
         }
+    }
+    public function getConditions(): array
+    {
+        $this->loadObjs();
+        return $this->parsed_conditions;
+    }
+    public function getRewards(): array
+    {
+        $this->loadObjs();
+        return $this->parsed_rewards;
     }
     public function eachRewards(callable $callback)
     {
@@ -62,6 +70,7 @@ class QuestInfo extends AbstractModel
                 $condition->name,
                 $condition->operator,
                 $condition->value,
+                isset($condition->calculate) ? $condition->calculate : 1,
                 $span
             );
         }
@@ -98,7 +107,7 @@ class QuestInfo extends AbstractModel
      */
     public function getUserConditions(User $user)
     {
-        return $this->hasManyThrough(QuestCondition::class, QuestConditionQuestInfo::class, "quest_info_id", "name", "id", "condition_name")->where("user_id", $user->id);
+        return $this->hasManyThrough(Condition::class, QuestConditionQuestInfo::class, "quest_info_id", "name", "id", "condition_name")->where("user_id", $user->id);
     }
 
     public function getUserQuests(User $user)
