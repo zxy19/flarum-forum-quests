@@ -1,12 +1,12 @@
 /// <reference types="mithril" />
 import { IPageAttrs } from 'flarum/common/components/Page';
-import QuestInfo from '../../common/models/QuestInfo';
 import Component from 'flarum/common/Component';
-import QuestCondition from '../../common/models/QuestCondition';
-import { ConditionData, OPERATOR } from '../../common/types/data';
+import QuestInfo from '../../common/models/QuestInfo';
+import type { ConditionData } from '@xypp-collector/common/types/data';
+import { Condition, OPERATOR } from '@xypp-collector/forum';
 export default class QuestItem extends Component<{
     item: QuestInfo;
-    conditionMap?: Record<string, QuestCondition>;
+    conditionMap?: Record<string, Condition>;
 } & IPageAttrs, null> {
     loading: boolean;
     currentFilter: string;

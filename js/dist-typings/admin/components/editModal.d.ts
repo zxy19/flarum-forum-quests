@@ -2,17 +2,15 @@
 /// <reference types="flarum/@types/translator-icu-rich" />
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import QuestInfo from '../../common/models/QuestInfo';
-import { ConditionData, RewardData } from '../../common/types/data';
+import Stream from 'flarum/common/utils/Stream';
+import type { ConditionData, RewardData } from '@xypp-collector/common/types/data';
 export default class editModal extends Modal<{
     item?: QuestInfo;
     update: (item: QuestInfo) => void;
 } & IInternalModalAttrs> {
-    REG_CONDITIONS: Record<string, string>;
-    REG_REWARDS: Record<string, string>;
-    REG_OPERATOR: Record<string, string>;
     REG_RE_AVAILABLE: Record<string, string>;
-    conditions: ConditionData[];
-    rewards: RewardData[];
+    conditions?: Stream<ConditionData[]>;
+    rewards?: Stream<RewardData[]>;
     name: string;
     desc: string;
     icon: string;
@@ -26,5 +24,4 @@ export default class editModal extends Modal<{
     oncreate(vnode: any): void;
     content(): JSX.Element;
     onsubmit(e: any): Promise<void>;
-    getValue(e: MouseEvent): Promise<void>;
 }

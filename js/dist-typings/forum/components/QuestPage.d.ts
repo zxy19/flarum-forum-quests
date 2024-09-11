@@ -2,7 +2,7 @@
 /// <reference types="flarum/@types/translator-icu-rich" />
 import Page from 'flarum/common/components/Page';
 import QuestInfo from '../../common/models/QuestInfo';
-import QuestCondition from '../../common/models/QuestCondition';
+import { Condition } from '@xypp-collector/forum';
 export default class QuestPage extends Page {
     REG_STATUS: {
         all: import("@askvortsov/rich-icu-message-formatter").NestedStringArray;
@@ -14,9 +14,9 @@ export default class QuestPage extends Page {
     currentFilter: string;
     offset: number;
     items: QuestInfo[];
-    conditions: QuestCondition[];
+    conditions: Condition[];
     conditionLoading: boolean;
-    conditionMap: Record<string, QuestCondition>;
+    conditionMap: Record<string, Condition>;
     oninit(vnode: any): void;
     oncreate(vnode: any): void;
     view(): JSX.Element;

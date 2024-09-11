@@ -6,6 +6,18 @@ A [Flarum](http://flarum.org) extension. Add quests to the forum, and reward wit
 
 中文用户请参阅 [README-CN.md](README-CN.md)
 
+## Migration Guide
+
+If you are upgrading from 1.x to 2.0, please follow the steps below
+
+1. Backup your database
+2. Disable this extension
+3. Update the extension. You'll see our dependencies are also installed. If you are using `Collector` extension before, go to step 7.
+4. Enable `Localize Date Lib` and configure Timezone
+5. Enable `Collector` and check settings(Same as before by default)
+6. Run `php flarum collector:migrate`. This command will copy all data from forum-quests database to collector.
+7. Enable this extension
+
 ## Simply Guide
 
 Go [Configure Before Usage](#configure-before-usage)
@@ -40,7 +52,7 @@ This extension provides a frontend page for user to know what quest they are abl
 
 This command will ask all conditions to be rebuilt from database. However some conditions have not recorded with time so they will lost all accumulation data after recalculate.
 
-When you running `php flarum forum-quests:recalculate` command, by default it will stop running and ask you to confirm when some conditions are not able to be rebuilt from database. If this is the first time you run this command, just type `y` to continue.Otherwise **Press Enter Or Type `n` to skip rebuilt** or you will lose all accumulation data and only get the total value of this condition.
+When you running `php flarum collector:recalculate` command, by default it will stop running and ask you to confirm when some conditions are not able to be rebuilt from database. If this is the first time you run this command, just type `y` to continue.Otherwise **Press Enter Or Type `n` to skip rebuilt** or you will lose all accumulation data and only get the total value of this condition.
 
 ### Refreshing after edit
 
@@ -52,9 +64,12 @@ To fix the problem, rum `php flarum forum-quests:refresh`
 
 After installing, there are still something you need to do.
 
-- Enable the extension
-- Fill the timezone in admin panel and press `Save`
-- run `php flarum forum-quests:recalculate`, and type `y` for all query(ONLY FOR FIRST RUNNING)
+If you haven't enable `Collector`
+
+1. Enable `Localize Date Lib` and configure Timezone
+2. Enable `Collector` and check settings(Same as before by default)
+
+Then enable the extension.
 
 ### For Best Experience
 
@@ -62,31 +77,29 @@ The quest done will notify the user by alert notification.
 
 It will be better to work with following
 
-+ xypp/flarum-websocket-notification
-+ blomstra/realtime
-+ kyrne/websocket
-+ flarum/pusher
+- xypp/flarum-websocket-notification
+- blomstra/realtime
+- kyrne/websocket
+- flarum/pusher
 
 ## Installation
 
 Install with composer:
 
+**Please Read Install Guide [#Configure before usage](#configure-before-usage)**
+
 ```sh
 composer require xypp/forum-quests:"*"
 ```
 
-Then configure timezone
-
-```sh
-php flarum forum-quests:recalculate
-```
-
 ## Updating
+
+**Please Read the [Migration Guide](#migration-guide) First Before Updating**
 
 ```sh
 composer update xypp/forum-quests:"*"
 php flarum migrate
-php flarum forum-quests:recalculate
+php flarum collector:recalculate
 php flarum cache:clear
 ```
 
@@ -99,11 +112,10 @@ php flarum cache:clear
 
 This extension is designed for following targets that other extensions lacks:
 
-+ Metric Pre Day
-+ One-time trigger(No leave event)
-+ Multiple times
-+ Frontend List
-
+- Metric Pre Day
+- One-time trigger(No leave event)
+- Multiple times
+- Frontend List
 
 ## Integration
 

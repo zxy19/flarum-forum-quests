@@ -6,9 +6,21 @@
 
 For English User, Please see [README.md](README.md)
 
+## 迁移指南
+
+如果您已经安装了 1.x 版本，在升级到 2.0 版本时请遵循下面的步骤
+
+1. 备份数据库
+2. 关闭本拓展
+3. 更新本拓展，你应该能看到本拓展的依赖项也被一并安装了【如果之前安装过 Collector，请跳过到 7】
+4. 启用`Localize Date Lib`,并在其中配置时区
+5. 启用`Collector`,并检查配置（默认配置应当和之前是一致的）
+6. 运行`php flarum collector:migrate`，该命令会将 forum-quests 的所有数据复制到新的数据库
+7. 启用本拓展
+
 ## 简单指南
 
-转到 [使用前配置](#configure-before-usage)
+转到 [使用前配置](#使用前配置)
 
 ## 说明
 
@@ -24,7 +36,7 @@ For English User, Please see [README.md](README.md)
 
 ### 时间区间
 
-此扩展允许您在条件中使用时间区间。例如，在时间区间1之内发帖数>0 表示用户必须在这一天至少发帖一次。时间区间根据管理面板中配置的时区计算。
+此扩展允许您在条件中使用时间区间。例如，在时间区间 1 之内发帖数>0 表示用户必须在这一天至少发帖一次。时间区间根据管理面板中配置的时区计算。
 
 #### 重新可用
 
@@ -40,7 +52,7 @@ For English User, Please see [README.md](README.md)
 
 此命令将要求从数据库中重建所有条件。但有些条件没有随时间记录，因此重新计算后会丢失所有累积数据。
 
-当您运行 `php flarum forum-quests:recalculate` 命令时，默认情况下它会在某些条件无法从数据库中重建时暂停运行并要求您确认。如果您是第一次运行此命令，键入 `y` 继续。否则 **按回车键或键入 `n` 跳过重建**，否则您将丢失所有累积数据，只能得到此条件的总值。
+当您运行 `php flarum collector:recalculate` 命令时，默认情况下它会在某些条件无法从数据库中重建时暂停运行并要求您确认。如果您是第一次运行此命令，键入 `y` 继续。否则 **按回车键或键入 `n` 跳过重建**，否则您将丢失所有累积数据，只能得到此条件的总值。
 
 ### 编辑后刷新
 
@@ -52,22 +64,29 @@ For English User, Please see [README.md](README.md)
 
 安装后，你还需要做一些事情。
 
-- 启用扩展
-- 在管理面板中填写时区，然后按`保存
-- 运行`php flarum forum-quests:recalculate`，并在所有查询中输入`y`（仅适用于首次运行）。
+如果 Collector 拓展目前没有启用的话
+
+1. 启用`Localize Date Lib`,并在其中配置时区
+2. 启用`Collector`,并检查配置（默认配置应当和之前是一致的）
+3. 运行`php flarum collector:migrate`，该命令会将 forum-quests 的所有数据复制到新的数据库
+4. 运行`php flarum collector:recalculate`，并在所有查询中输入`y`（仅适用于首次运行）。
+
+之后，你可以正常启用扩展
 
 ### 最佳体验
 
-完成的任务会通过Alert通知用户。
+完成的任务会通过 Alert 通知用户。
 
 配合下列插件使用体验更佳
 
-+ xypp/flarum-websocket-notification
-+ blomstra/realtime
-+ kyrne/websocket
-+ flarum/pusher
+- xypp/flarum-websocket-notification
+- blomstra/realtime
+- kyrne/websocket
+- flarum/pusher
 
 ## 安装
+
+**请先阅读[使用之前配置](#使用前配置)**
 
 使用 composer 安装：
 
@@ -75,18 +94,14 @@ For English User, Please see [README.md](README.md)
 composer require xypp/forum-quests: "*"
 ```
 
-然后配置时区
-
-```sh
-php flarum forum-quests:recalculate
-```
-
 ## 更新
+
+**请先阅读[迁移指南](#迁移指南)，然后再更新**
 
 ```sh
 composer update xypp/forum-quests: "*"
 php flarum migrate
-php flarum forum-quests:recalculate
+php flarum collector:recalculate
 php flarum cache:clear
 ```
 
@@ -99,11 +114,10 @@ php flarum cache:clear
 
 本扩展专为以下目标而设计，而其他扩展则缺乏这些目标：
 
-+ 公制前日
-+ 一次性触发（无离开事件）
-+ 多次触发
-+ 前端列表
-
+- 公制前日
+- 一次性触发（无离开事件）
+- 多次触发
+- 前端列表
 
 ## 集成
 
@@ -135,8 +149,6 @@ php flarum cache:clear
 
 - foskym/flarum-custom-levels: 经验值奖励.
 - xypp/flarum-invite-user: 邀请相关的条件
-
-
 
 ## 链接
 
