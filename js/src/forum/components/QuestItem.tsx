@@ -61,9 +61,9 @@ export default class QuestItem extends Component<{
 
     progress(condition: ConditionData) {
         if (!this.attrs.conditionMap || !this.attrs.conditionMap[condition.name]) return "";
-        let value = this.attrs.conditionMap[condition.name].value();
+        let value = this.attrs.conditionMap[condition.name].getTotal(condition.calculate);
         if (condition.span) {
-            value = this.attrs.conditionMap[condition.name].getSpan(condition.span);
+            value = this.attrs.conditionMap[condition.name].getSpan(condition.span,condition.calculate);
         }
         const satisfy = this.conditionOp(value, condition.operator, condition.value);
         if (satisfy) {
