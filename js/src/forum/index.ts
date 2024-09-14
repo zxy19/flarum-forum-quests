@@ -12,8 +12,8 @@ app.initializers.add('xypp/forum-quests', () => {
     component: QuestPage
   };
   extend(NotificationGrid.prototype, 'notificationTypes', function (items) {
-    items.add('postLiked', {
-      name: 'postLiked',
+    items.add('quest_done', {
+      name: 'quest_done',
       icon: 'far fa-thumbs-up',
       label: app.translator.trans('xypp-forum-quests.forum.notification.quest_done_label')
     });

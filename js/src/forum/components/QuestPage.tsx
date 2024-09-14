@@ -9,7 +9,7 @@ import QuestInfo from '../../common/models/QuestInfo';
 import QuestItem from './QuestItem';
 import Select from 'flarum/common/components/Select';
 import QuestConditionViewModal from './QuestConditionViewModal';
-import {HumanizeUtils,getConditionMap,getConditions,Condition} from '@xypp-collector/forum';
+import { HumanizeUtils, getConditionMap, getConditions, Condition } from '@xypp-collector/forum';
 export default class QuestPage extends Page {
     REG_STATUS = {
         "all": app.translator.trans('xypp-forum-quests.forum.quest_done.all'),
@@ -93,8 +93,8 @@ export default class QuestPage extends Page {
     async loadConditions() {
         this.conditionLoading = true;
         m.redraw();
-        this.conditions = await getConditions();
-        this.conditionMap = await getConditionMap();
+        this.conditions = await getConditions(true, app.session.user);
+        this.conditionMap = await getConditionMap(true, app.session.user);
         this.conditionLoading = false;
         m.redraw();
     }
