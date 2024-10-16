@@ -15,6 +15,7 @@ use Flarum\Extend;
 use Xypp\Collector\Condition;
 use Xypp\Collector\Event\ConditionChange;
 use Xypp\ForumQuests\Api\Serializer\QuestInfoSerializer;
+use Xypp\ForumQuests\Console\UpdateAchieveCommand;
 use Xypp\ForumQuests\Listener\QuestConditionModifierListener;
 use Xypp\ForumQuests\Notification\QuestDoneNotification;
 use Xypp\ForumQuests\Console\UpdateRefreshCommand;
@@ -46,7 +47,8 @@ return [
     (new Extend\Notification())
         ->type(QuestDoneNotification::class, QuestInfoSerializer::class, ['alert']),
     (new Extend\Console())
-        ->command(UpdateRefreshCommand::class),
+        ->command(UpdateRefreshCommand::class)
+        ->command(UpdateAchieveCommand::class),
     (new Extend\Settings())
         ->default('xypp.forum-quests.allow_update', true)
 ];

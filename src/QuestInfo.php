@@ -70,8 +70,8 @@ class QuestInfo extends AbstractModel
                 $condition->name,
                 $condition->operator,
                 $condition->value,
+                $span,
                 isset($condition->calculate) ? $condition->calculate : 1,
-                $span
             );
         }
     }
